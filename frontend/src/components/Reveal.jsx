@@ -2,14 +2,14 @@ import { motion, useReducedMotion } from "framer-motion";
 
 const EASE = [0.16, 1, 0.3, 1];
 
-export const Reveal = ({ children, delay = 0, y = 28, className = "" }) => {
+export const Reveal = ({ children, delay = 0, y = 36, className = "" }) => {
   const reduced = useReducedMotion();
   return (
   <motion.div
     className={className}
-    initial={reduced ? false : { opacity: 0, y, scale: 0.985 }}
+    initial={reduced ? false : { opacity: 0, y, scale: 0.975 }}
     whileInView={{ opacity: 1, y: 0, scale: 1 }}
-    viewport={{ once: true, amount: 0.15 }}
+    viewport={{ once: false, amount: 0.12 }}
     transition={{ duration: reduced ? 0 : 0.8, delay: reduced ? 0 : delay, ease: EASE }}
   >
     {children}
