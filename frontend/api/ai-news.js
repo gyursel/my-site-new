@@ -1,7 +1,7 @@
 // Fixed upstreams: this endpoint cannot proxy arbitrary user-supplied URLs.
 const FEEDS = [
-  "https://news.google.com/rss/search?q=" + encodeURIComponent("(OpenAI OR Anthropic OR Gemini OR DeepSeek OR \"AI model\") when:7d") + "&hl=en-US&gl=US&ceid=US:en",
-  "https://openai.com/news/rss.xml"
+  "https://news.google.com/rss/search?q=" + encodeURIComponent('"изкуствен интелект" when:7d') + "&hl=bg&gl=BG&ceid=BG:bg",
+  "https://news.google.com/rss/search?q=" + encodeURIComponent('(OpenAI OR ChatGPT OR Gemini OR Anthropic) when:7d') + "&hl=bg&gl=BG&ceid=BG:bg"
 ];
 module.exports = async function handler(req, res) {
   if (req.method !== "GET") {

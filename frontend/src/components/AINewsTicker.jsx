@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Pause, Play, Radio } from "lucide-react";
 
 const REFRESH_MS = 3 * 60 * 60 * 1000;
-const STORAGE_KEY = "gursel-ai-news-v1";
+const STORAGE_KEY = "gursel-ai-news-bg-v2";
 const safeLink = (value) => {
   try {
     const url = new URL(value);
@@ -17,12 +17,12 @@ const readFeed = (xml) => {
   return Array.from(doc.querySelectorAll("item")).map(item => {
     const text = tag => item.querySelector(tag)?.textContent?.trim() || "";
     const url = safeLink(text("link"));
-    const source = text("source") || "OpenAI";
+    const source = text("source") || "Новини";
     let title = text("title");
     if (title.endsWith(" - " + source)) title = title.slice(0, -(source.length + 3));
     return { title: title.slice(0, 350), url, source: source.slice(0, 80), date: text("pubDate") };
   }).filter(item => {
-    if (!item.title || !item.url || seen.has(item.url)) return false;
+    if (!/[А-Яа-я]/.test(item.title) || !item.url || seen.has(item.url)) return false;
     seen.add(item.url);
     return true;
   }).sort((a, b) => (Date.parse(b.date) || 0) - (Date.parse(a.date) || 0)).slice(0, 15);
@@ -44,7 +44,7 @@ export default function AINewsTicker() {
     try {
       const cached = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
       if (cached && Array.isArray(cached.items)) {
-        const valid = cached.items.filter(i => typeof i.title === "string" && typeof i.source === "string" && safeLink(i.url)).slice(0, 15);
+        const valid = cached.items.filter(i => typeof i.title === "string" && /[А-Яа-я]/.test(i.title) && typeof i.source === "string" && safeLink(i.url)).slice(0, 15);
         if (valid.length) { setItems(valid); setUpdated(cached.updated); }
       }
     } catch { /* Storage is optional. */ }
@@ -54,7 +54,7 @@ export default function AINewsTicker() {
       controller = new AbortController();
       const timeout = setTimeout(() => controller.abort(), 20000);
       try {
-        const response = await fetch("/api/ai-news", { signal: controller.signal });
+        const response = await fetch("/api/ai-news?language=bg-v2", { signal: controller.signal });
         if (!response.ok) throw new Error("RSS unavailable");
         const news = readFeed(await response.text());
         if (!news.length) throw new Error("Empty RSS");
