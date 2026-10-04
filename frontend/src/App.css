@@ -1,15 +1,15 @@
 @font-face {
     font-family: "Alvaro Condensed";
-    src: url("/fonts/Alvaro-Condensed.otf") format("opentype");
+    src: url("./fonts/Alvaro-Condensed.otf") format("opentype");
     font-weight: 400;
     font-style: normal;
     font-display: swap;
 }
-body { font-family: "Alvaro Condensed", "Manrope", sans-serif; }
-.font-display, .page-insets h2, .page-insets h3 {
+html body { font-family: "Alvaro Condensed", "Manrope", sans-serif; }
+.page-insets .font-display, .page-insets h2, .page-insets h3 {
     font-family: "Alvaro Condensed", "Unbounded", "Manrope", sans-serif;
 }
-.font-mono-label { font-family: "Alvaro Condensed", "JetBrains Mono", monospace; }
+.page-insets .font-mono-label { font-family: "Alvaro Condensed", "JetBrains Mono", monospace; }
 /* Cinematic hero: local, silent video with a static fallback. */
 .cinematic-hero { isolation: isolate; background: #050c17; }
 .hero-video-layer, .hero-video-shade { position: absolute; inset: 0; pointer-events: none; }
