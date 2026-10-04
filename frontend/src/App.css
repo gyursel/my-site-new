@@ -119,3 +119,26 @@
         opacity: 0;
     }
 }
+
+/* Blue neon is concentrated on display text, keeping body copy readable. */
+[data-testid="hero-title"] {
+    color: #83d9ff;
+    text-shadow: 0 0 2px #d9f6ff, 0 0 12px rgba(0,162,255,.7), 0 0 32px rgba(0,123,255,.42);
+}
+[data-testid="hero-title"] .text-primary { color: #40bcff; }
+.hero-title-line { padding: .15em .25em; margin: -.15em -.25em; }
+.page-insets h2 {
+    color: #85d9ff;
+    text-shadow: 0 0 10px rgba(0,162,255,.42), 0 0 24px rgba(0,123,255,.22);
+}
+.page-insets h3 { color: #b6eaff; text-shadow: 0 0 12px rgba(0,162,255,.3); }
+.site-header button { transition: color .25s, text-shadow .25s, background-color .25s; }
+.site-header button:hover { text-shadow: 0 0 10px rgba(0,162,255,.6); }
+.hero-layout .font-mono-label.text-primary,
+.page-insets > section .font-mono-label.text-primary {
+    color: #46c2ff;
+    text-shadow: 0 0 10px rgba(0,162,255,.5);
+}
+@media (min-width: 1024px) {
+    .hero-image-card { border-radius: 2rem; }
+}
