@@ -314,3 +314,18 @@ button.bg-primary:hover { box-shadow: 0 0 32px rgba(0,243,255,.4); }
     [data-testid^="service-card-"]::after, [data-testid^="project-card-"]::after { display: none; }
     .page-insets button:hover { translate: none; }
 }
+
+/* A single fixed video continues behind every section while scrolling. */
+[data-testid="portfolio-app"] { position: relative; isolation: isolate; background: #040d16; }
+.site-video-layer, .site-video-shade { position: fixed; inset: 0; pointer-events: none; }
+.site-video-layer { z-index: -2; overflow: hidden; background: #040d16; }
+.site-video-layer .hero-video, .site-video-layer .hero-video-poster { opacity: 1; object-position: center; }
+.site-video-shade {
+ z-index: -1;
+ background: linear-gradient(90deg,rgba(3,10,18,.68),rgba(3,10,18,.25) 60%,rgba(3,10,18,.38));
+}
+.page-insets > section.cinematic-hero,
+.page-insets > section[id],
+[data-testid="portfolio-app"] > footer { background-color: transparent; }
+.site-video-toggle { position: fixed; left: 16px; right: auto; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 40; }
+@media (max-width: 639px) { .site-video-toggle { padding: 10px; } .site-video-toggle span { display: none; } }

@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
-import { ArrowRight, Pause, Play } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { scrollToId } from "@/lib/scroll";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import AINewsTicker from "@/components/AINewsTicker";
@@ -8,52 +8,6 @@ import AINewsTicker from "@/components/AINewsTicker";
 const EASE = [0.16, 1, 0.3, 1];
 
 const HERO_IMG = "/images/gursel-macbook-workspace.webp";
-
-const VideoBackground = () => {
-  const videoRef = useRef(null);
-  const reducedMotion = useReducedMotion();
-  const [paused, setPaused] = useState(false);
-  const [failed, setFailed] = useState(false);
-  const [allowed, setAllowed] = useState(false);
-  const [inView, setInView] = useState(true);
-  useEffect(() => {
-    setAllowed(!reducedMotion && !navigator.connection?.saveData);
-  }, [reducedMotion]);
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-    const observer = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting));
-    observer.observe(video);
-    return () => observer.disconnect();
-  }, [allowed]);
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-    const sync = () => {
-      if (allowed && !paused && inView && !document.hidden && !failed) {
-        video.play().catch(() => setPaused(true));
-      } else video.pause();
-    };
-    sync();
-    document.addEventListener("visibilitychange", sync);
-    return () => document.removeEventListener("visibilitychange", sync);
-  }, [allowed, paused, inView, failed]);
-  return (
-    <>
-      <div className="hero-video-layer" aria-hidden="true">
-        <img src="/videos/blue-aurora-poster.jpg" alt="" className="hero-video-poster" />
-        {allowed && !failed && <video ref={videoRef} className="hero-video" muted loop playsInline preload="metadata" poster="/videos/blue-aurora-poster.jpg" onError={() => setFailed(true)}>
-          <source src="/videos/blue-aurora.mp4" type="video/mp4" />
-        </video>}
-      </div>
-      <div className="hero-video-shade" aria-hidden="true" />
-      {allowed && !failed && <button type="button" className="hero-video-toggle" onClick={() => setPaused(value => !value)} aria-label={paused ? "Пусни видео фона" : "Пауза на видео фона"} aria-pressed={paused}>
-        {paused ? <Play size={14} /> : <Pause size={14} />}
-        <span>{paused ? "Пусни фона" : "Пауза на фона"}</span>
-      </button>}
-    </>
-  );
-};
 
 const MaskedLine = ({ children, delay }) => (
   <span className="hero-title-line block overflow-hidden pb-1">
@@ -84,7 +38,6 @@ export const Hero = () => {
       data-testid="hero-section"
       className="cinematic-hero relative min-h-[calc(100svh-5rem)] flex items-center overflow-hidden"
     >
-      <VideoBackground />
       <AINewsTicker />
       <div className="absolute inset-0 bg-grid bg-grid-fade" aria-hidden="true" />
       <div className="absolute inset-0 hero-atmosphere pointer-events-none" aria-hidden="true" />

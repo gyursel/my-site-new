@@ -5,6 +5,7 @@ import Lenis from "lenis";
 import { MotionConfig, useReducedMotion } from "framer-motion";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import Navbar from "@/components/Navbar";
+import SiteVideoBackground from "@/components/SiteVideoBackground";
 import Hero from "@/components/Hero";
 import Marquee from "@/components/Marquee";
 import Services from "@/components/Services";
@@ -69,6 +70,7 @@ function App() {
       <MotionConfig reducedMotion="user">
       <BrowserRouter>
         <div data-testid="portfolio-app" className="dark noise bg-background text-foreground antialiased">
+          <SiteVideoBackground />
           <Navbar />
           <main id="main-content" className="page-insets">
             <Routes>
