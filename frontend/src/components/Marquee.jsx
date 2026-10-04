@@ -21,17 +21,17 @@ const Track = ({ hidden }) => (
   <div aria-hidden={hidden ? "true" : undefined} className="flex items-center shrink-0">
     {ITEMS.map((item, i) => (
       <span key={`${item}-${i}`} className="flex items-center">
-        <span className="font-display text-3xl sm:text-5xl font-medium text-foreground px-6 sm:px-9 whitespace-nowrap">
+        <span className="ribbon-label whitespace-nowrap">
           {item}
         </span>
-        <Asterisk className="w-6 h-6 sm:w-8 sm:h-8 text-primary shrink-0" />
+        <Asterisk className="ribbon-separator shrink-0" />
       </span>
     ))}
   </div>
 );
 
 export const Marquee = () => (
-  <section className="py-10 sm:py-14 border-y border-border bg-secondary">
+  <section className="tech-ribbon">
     <div className="marquee" data-testid="tech-marquee">
       <div className="marquee-track">
         <Track />
