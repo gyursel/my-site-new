@@ -7,3 +7,4 @@ build/
 .emergent/
 memory/
 test_reports/
+.DS_Store
