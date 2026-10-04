@@ -55,7 +55,7 @@ const VideoBackground = () => {
 };
 
 const MaskedLine = ({ children, delay }) => (
-  <span className="block overflow-hidden pb-1">
+  <span className="hero-title-line block overflow-hidden pb-1">
     <motion.span
       className="block"
       initial={{ y: "112%" }}
@@ -87,7 +87,7 @@ export const Hero = () => {
       <div className="absolute inset-0 bg-grid bg-grid-fade" aria-hidden="true" />
       <div className="absolute inset-0 hero-atmosphere pointer-events-none" aria-hidden="true" />
 
-      <div className="hero-layout relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-28 pb-12 sm:pb-16 lg:pt-24 grid lg:grid-cols-[1.05fr_0.95fr] gap-6 sm:gap-8 lg:gap-20 items-center">
+      <div className="hero-layout relative z-10 max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 w-full pt-28 pb-12 sm:pb-16 lg:pt-24 grid lg:grid-cols-[0.85fr_1.15fr] gap-6 sm:gap-8 lg:gap-10 items-center">
         <div className="contents lg:block min-w-0">
           <div className="order-1 min-w-0">
           <motion.div
@@ -172,7 +172,7 @@ export const Hero = () => {
               data-testid="hero-portrait-image"
               src={HERO_IMG}
               srcSet="/images/gursel-macbook-workspace-360.webp 360w, /images/gursel-macbook-workspace-640.webp 640w, /images/gursel-macbook-workspace-960.webp 960w, /images/gursel-macbook-workspace.webp 1264w"
-              sizes="(min-width: 1280px) 540px, (min-width: 1024px) 45vw, (min-width: 640px) calc(100vw - 3rem), calc(100vw - 2rem)"
+              sizes="(min-width: 1440px) 750px, (min-width: 1024px) 54vw, (min-width: 640px) calc(100vw - 3rem), calc(100vw - 2rem)"
               alt="Гюрсел Исмаилов работи на MacBook в модерен кабинет — AI обработка на авторския му портрет"
               width={1264}
               height={848}
