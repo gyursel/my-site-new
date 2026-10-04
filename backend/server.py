@@ -13,7 +13,7 @@ import json
 import logging
 from pathlib import Path
 
-from emergentintegrations.llm.chat import LlmChat, UserMessage, TextDelta, StreamDone
+from anthropic import AsyncAnthropic
 
 
 ROOT_DIR = Path(__file__).parent
@@ -167,21 +167,20 @@ async def chat_endpoint(req: ChatRequest):
     async def event_stream():
         full_reply = ""
         try:
-            chat = (
-                LlmChat(
-                    api_key=os.environ["EMERGENT_LLM_KEY"],
-                    session_id=f"portfolio-{req.session_id}",
-                    system_message=CHAT_SYSTEM_PROMPT,
-                    initial_messages=prior_msgs,
-                )
-                .with_model("anthropic", "claude-sonnet-5-5")
-            )
-            async for event in chat.stream_message(UserMessage(text=req.message)):
-                if isinstance(event, TextDelta):
-                    full_reply += event.content
-                    yield f"data: {json.dumps({'type': 'delta', 'content': event.content}, ensure_ascii=False)}\n\n"
-                elif isinstance(event, StreamDone):
-                    break
+            ac = AsyncAnthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
+            msgs = list(prior_msgs)
+            while msgs and msgs[0]["role"] != "user":
+                msgs.pop(0)
+            msgs.append({"role": "user", "content": req.message})
+            async with ac.messages.stream(
+                model="claude-sonnet-5-5",
+                max_tokens=1024,
+                system=CHAT_SYSTEM_PROMPT,
+                messages=msgs,
+            ) as stream:
+                async for text in stream.text_stream:
+                    full_reply += text
+                    yield f"data: {json.dumps({'type': 'delta', 'content': text}, ensure_ascii=False)}\n\n"
         except Exception as e:
             logger.error(f"Chat error: {e}")
             yield f"data: {json.dumps({'type': 'error', 'content': 'Възникна грешка при отговора. Моля, опитайте отново.'}, ensure_ascii=False)}\n\n"
