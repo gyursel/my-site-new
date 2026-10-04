@@ -3,6 +3,7 @@ import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion
 import { ArrowRight, Pause, Play } from "lucide-react";
 import { scrollToId } from "@/lib/scroll";
 import { useMediaQuery } from "@/hooks/use-media-query";
+import AINewsTicker from "@/components/AINewsTicker";
 
 const EASE = [0.16, 1, 0.3, 1];
 
@@ -84,6 +85,7 @@ export const Hero = () => {
       className="cinematic-hero relative min-h-[calc(100svh-5rem)] flex items-center overflow-hidden"
     >
       <VideoBackground />
+      <AINewsTicker />
       <div className="absolute inset-0 bg-grid bg-grid-fade" aria-hidden="true" />
       <div className="absolute inset-0 hero-atmosphere pointer-events-none" aria-hidden="true" />
 
