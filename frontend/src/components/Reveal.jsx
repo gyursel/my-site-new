@@ -7,10 +7,10 @@ export const Reveal = ({ children, delay = 0, y = 28, className = "" }) => {
   return (
   <motion.div
     className={className}
-    initial={reduced ? false : { opacity: 0, y }}
-    whileInView={{ opacity: 1, y: 0 }}
+    initial={reduced ? false : { opacity: 0, y, scale: 0.985 }}
+    whileInView={{ opacity: 1, y: 0, scale: 1 }}
     viewport={{ once: true, amount: 0.15 }}
-    transition={{ duration: reduced ? 0 : 0.55, delay: reduced ? 0 : delay, ease: EASE }}
+    transition={{ duration: reduced ? 0 : 0.8, delay: reduced ? 0 : delay, ease: EASE }}
   >
     {children}
   </motion.div>
