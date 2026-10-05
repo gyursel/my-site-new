@@ -1,0 +1,120 @@
+{
+  "theme": "dark",
+  "typography": {
+    "fonts": [
+      {
+        "family": "Unbounded",
+        "usage": "Headings, massive text, buttons. Excellent modern tech display font with strong Cyrillic support.",
+        "weights": ["400", "700", "900"],
+        "import": "@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&display=swap');"
+      },
+      {
+        "family": "Manrope",
+        "usage": "Body text, UI elements, forms. Clean geometric sans with great Cyrillic readability.",
+        "weights": ["400", "500"],
+        "import": "@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500&display=swap');"
+      }
+    ],
+    "hierarchy": {
+      "h1": "text-5xl md:text-6xl lg:text-7xl font-black tracking-tighter leading-[1.1]",
+      "h2": "text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight",
+      "h3": "text-xl sm:text-2xl font-bold",
+      "body": "text-base md:text-lg leading-relaxed text-white/80 font-['Manrope']",
+      "marquee": "text-[8vw] font-black uppercase text-transparent stroke-white/20"
+    }
+  },
+  "colors": {
+    "background": "#05030A",
+    "surface": {
+      "glass_light": "bg-white/[0.03] backdrop-blur-2xl border border-white/10",
+      "glass_dense": "bg-[#0b061c]/85 backdrop-blur-3xl border border-white/[0.12]"
+    },
+    "accents": {
+      "primary": "#00E5FF",
+      "secondary": "#B200FF",
+      "glow_primary": "rgba(0, 229, 255, 0.4)",
+      "glow_secondary": "rgba(178, 0, 255, 0.4)"
+    },
+    "text": {
+      "primary": "#FFFFFF",
+      "secondary": "rgba(255, 255, 255, 0.7)",
+      "muted": "rgba(255, 255, 255, 0.4)"
+    }
+  },
+  "visual_enhancers": {
+    "glassmorphism": "MUST apply heavy `backdrop-blur-xl` or `2xl` and a 1px delicate `border-white/10` on all panels (nav, cards, form). NO fully transparent surfaces behind text.",
+    "glow_effects": "Use soft layered `box-shadow` or `drop-shadow` for neon accents. Do NOT overuse; strongest glow belongs on the primary action button ONLY.",
+    "background_animation": "Continuous moving light streams (CSS/Framer Motion) behind the site. Must be `pointer-events-none` and `z-[-1]`. A dark semi-transparent overlay (`bg-[#05030A]/80`) MUST cover it to ensure readable panels.",
+    "accessibility_toggles": "Provide a Pause button (top right or bottom left) for animations. Respect `prefers-reduced-motion` using media queries to render a static, beautiful gradient mesh."
+  },
+  "layouts": {
+    "global": "Ensure absolutely NO horizontal scroll by using `overflow-x-hidden` on the main wrapper.",
+    "hero": "min-h-screen pt-24 pb-12 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center. Headline/Text spans 7 cols left. Portrait spans 5 cols right.",
+    "services": "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6. Equal spacing, uniform glass cards with denser backgrounds.",
+    "projects": "grid grid-cols-1 md:grid-cols-2 gap-8. Project thumbnails nested in glass containers.",
+    "enquiry": "Max-width wrapper (`max-w-3xl`). Single robust glass panel containing the contact form."
+  },
+  "motion": {
+    "kinetic_hero": "Masked line-by-line text reveal on load using Framer Motion (wrap lines in `overflow-hidden`, animate `y` from `100%` to `0`).",
+    "parallax": "Subtle parallax on the hero portrait using `useScroll` and `useTransform` mapping Y scroll to Y translation.",
+    "marquee": "Slow, smooth editorial marquee running between sections using `react-fast-marquee`.",
+    "scroll_reveals": "Fade up (`y: 40, opacity: 0` to `y: 0, opacity: 1`) for glass cards with staggered delays."
+  },
+  "accessibility": {
+    "focus": "Visible keyboard focus rings (`focus-visible:ring-2 focus-visible:ring-[#00E5FF] focus-visible:outline-none`) on all interactive items.",
+    "contrast": "Text must meet APCA/WCAG standards. Glass backgrounds behind text must be dense enough (`bg-[#0b061c]/85`) to obscure complex neon lines.",
+    "form": "Show success message visually swapping the form ONLY after validated submission. Preserve user input values on error."
+  },
+  "components_strategy": {
+    "navigation": "Fixed top glass header, `z-50`. Links: intro, services, projects, enquiry. Must visually separate from background.",
+    "buttons": "Primary CTA ('Свържи се с мен'): solid gradient fill with drop-shadow glow. Secondary CTA ('Разгледай услугите'): outline glass style.",
+    "form_elements": "Customized Shadcn inputs. `bg-black/40`, `border-white/10`, white text, focus rings in cyan. Error text in soft red.",
+    "testing": "All interactive elements MUST include `data-testid` (e.g., `contact-form-submit`, `nav-link-projects`)."
+  },
+  "media": {
+    "image_urls": [
+      {
+        "url": "https://images.pexels.com/photos/17732082/pexels-photo-17732082.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "description": "Professional portrait placeholder with dynamic blue/purple neon rim lighting.",
+        "category": "hero_portrait"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1689443111130-6e9c7dfd8f9e?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NjZ8MHwxfHNlYXJjaHwxfHxhYnN0cmFjdCUyMHRlY2hub2xvZ3klMjBhcnRpZmljaWFsJTIwaW50ZWxsaWdlbmNlJTIwZ2xvd2luZyUyMGxpbmVzJTIwYmx1ZSUyMHB1cnBsZXxlbnwwfHx8fDE3OTExNTk1NzF8MA&ixlib=rb-4.1.0&q=85",
+        "description": "Abstract tech/AI glowing lines blue/purple for project thumbnail.",
+        "category": "project_thumbnail_1"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1620207418302-439b387441b0?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2OTV8MHwxfHNlYXJjaHwyfHxkYXJrJTIwZnV0dXJpc3RpYyUyMGRpZ2l0YWwlMjBhcnQlMjBibHVlJTIwdmlvbGV0JTIwbmVvbiUyMGFic3RyYWN0fGVufDB8fHx8MTc5MTE1OTU3MXww&ixlib=rb-4.1.0&q=85",
+        "description": "Dark futuristic digital art blue violet neon abstract for project thumbnail.",
+        "category": "project_thumbnail_2"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1651870364199-fc5f9f46ac85?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzF8MHwxfHNlYXJjaHwxfHxhYnN0cmFjdCUyMGRhdGElMjB2aXN1YWxpemF0aW9uJTIwYmx1ZSUyMHB1cnBsZSUyMG5lb24lMjB3YXZlc3xlbnwwfHx8fDE3OTExNTk1NzF8MA&ixlib=rb-4.1.0&q=85",
+        "description": "Abstract data visualization blue purple neon waves for project thumbnail.",
+        "category": "project_thumbnail_3"
+      }
+    ]
+  },
+  "libraries": {
+    "motion": ["framer-motion", "react-fast-marquee"],
+    "icons": ["lucide-react"]
+  },
+  "instructions_to_main_agent": [
+    "Build a single-page app portfolio (Bulgarian text) using .jsx/.js files (No TypeScript).",
+    "Set up continuous animated light streams background spanning the entire site height. Use a dense overlay `bg-[#05030A]/80` on top of the animation so content is readable.",
+    "Provide a Pause button to toggle the background animation, and respect prefers-reduced-motion out of the box.",
+    "Implement line-by-line kinetic reveal for the Hero headline.",
+    "Ensure 'bg-transparent' is NEVER used for panels containing text over the animated background. Use dense glass.",
+    "Implement the form with client-side validation. Show success UI only on valid submit.",
+    "Apply `data-testid` universally across all interactive elements."
+  ],
+  "UNIVERSAL_GUIDELINES_FOR_MAIN_AGENT": [
+    "Do not apply global `transition: all`. Target specific properties.",
+    "Do not center align text globally. Keep paragraphs left-aligned.",
+    "Avoid standard Shadcn styling without customizing to the 'AI Neon Glass' brand (dark borders, deep blurs).",
+    "Use generous padding (p-8, p-12) on cards and sections.",
+    "Layer elements properly with z-index to prevent the background animation from blocking clicks.",
+    "NEVER use placeholder text for images. Always use the precise image URLs provided.",
+    "Add 'GENERAL UI UX DESIGN GUIDELINES' principles to every component."
+  ]
+}
