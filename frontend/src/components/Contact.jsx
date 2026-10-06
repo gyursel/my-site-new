@@ -4,7 +4,7 @@ import axios from "axios";
 import { toast } from "sonner";
 import { Mail, Phone, MapPin, CheckCircle2, Send, Loader2 } from "lucide-react";
 import { CONTACT } from "../data/content";
-import { Reveal } from "./Reveal";
+import { Reveal, SplitWords } from "./Reveal";
 
 const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
 
@@ -36,12 +36,14 @@ export const Contact = () => {
   return (
     <section id="contact" className="mx-auto max-w-3xl px-6 py-24 md:py-32" data-testid="contact-section">
       <Reveal>
-        <p className="eyebrow mb-4">{CONTACT.eyebrow}</p>
-        <h2 className="text-3xl font-extrabold leading-tight sm:text-4xl">{CONTACT.title}</h2>
-        <p className="mt-5 max-w-xl text-sm leading-relaxed text-white/65 md:text-base">{CONTACT.lead}</p>
+        <p className="eyebrow mb-5">{CONTACT.eyebrow}</p>
+        <h2 className="text-4xl font-extrabold leading-[1.05] sm:text-5xl lg:text-6xl">
+          <SplitWords text={CONTACT.title} />
+        </h2>
+        <p className="mt-6 max-w-xl text-base leading-relaxed text-white/65 md:text-lg">{CONTACT.lead}</p>
       </Reveal>
 
-      <Reveal delay={0.15}>
+      <Reveal delay={0.15} variant="blur">
         <div className="glass-panel mt-12 p-8 md:p-12">
           {submitted ? (
             <div className="flex flex-col items-start gap-4 py-8" data-testid="contact-success-message">

@@ -1,17 +1,19 @@
 import { IMAGES, PROJECTS, PROJECTS_SECTION } from "../data/content";
-import { Reveal } from "./Reveal";
+import { Reveal, SplitWords } from "./Reveal";
 
 export const Projects = () => (
-  <section id="projects" className="mx-auto max-w-6xl px-6 py-24 md:py-28" data-testid="projects-section">
+  <section id="projects" className="mx-auto max-w-6xl px-6 py-24 md:py-32" data-testid="projects-section">
     <Reveal>
-      <p className="eyebrow mb-4">{PROJECTS_SECTION.eyebrow}</p>
-      <h2 className="text-3xl font-extrabold leading-tight sm:text-4xl">{PROJECTS_SECTION.title}</h2>
-      <p className="mt-5 max-w-xl text-sm leading-relaxed text-white/65 md:text-base">{PROJECTS_SECTION.lead}</p>
+      <p className="eyebrow mb-5">{PROJECTS_SECTION.eyebrow}</p>
+      <h2 className="text-4xl font-extrabold leading-[1.05] sm:text-5xl lg:text-6xl">
+        <SplitWords text={PROJECTS_SECTION.title} />
+      </h2>
+      <p className="mt-6 max-w-xl text-base leading-relaxed text-white/65 md:text-lg">{PROJECTS_SECTION.lead}</p>
     </Reveal>
 
-    <div className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-3">
+    <div className="mt-14 grid grid-cols-1 gap-5 md:grid-cols-3">
       {PROJECTS.map((p, i) => (
-        <Reveal key={p.title} delay={i * 0.08}>
+        <Reveal key={p.title} delay={i * 0.12} variant={i === 0 ? "left" : i === 2 ? "right" : "up"}>
           <article className="glass-card group h-full overflow-hidden" data-testid={`project-card-${i}`}>
             <div className="overflow-hidden">
               <img

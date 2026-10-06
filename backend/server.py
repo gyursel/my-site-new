@@ -297,7 +297,7 @@ app.add_middleware(
     allow_credentials=True,
     allow_origins=[
         "https://my-site-new-neon.vercel.app",
-        "https://ai-portfolio-glow.preview.emergentagent.com",
+        "https://f7584b9f-4afd-421c-9ce3-47c65353accc.preview.emergentagent.com",
     ],
     allow_methods=["*"],
     allow_headers=["*"],

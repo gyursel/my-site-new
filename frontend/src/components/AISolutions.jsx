@@ -1,6 +1,6 @@
 import { MessageSquareText, Workflow, FileText, ScanEye, Smartphone, Sparkles } from "lucide-react";
 import { AI_SECTION, AI_SOLUTIONS } from "../data/content";
-import { Reveal } from "./Reveal";
+import { Reveal, SplitWords } from "./Reveal";
 import { useChat } from "../context/ChatContext";
 
 const ICONS = { MessageSquareText, Workflow, FileText, ScanEye, Smartphone };
@@ -8,22 +8,22 @@ const ICONS = { MessageSquareText, Workflow, FileText, ScanEye, Smartphone };
 export const AISolutions = () => {
   const { openWithPrompt } = useChat();
   return (
-    <section id="ai" className="mx-auto max-w-6xl px-6 py-24 md:py-28" data-testid="ai-section">
+    <section id="ai" className="mx-auto max-w-6xl px-6 py-24 md:py-32" data-testid="ai-section">
       <Reveal>
-        <p className="eyebrow mb-4">{AI_SECTION.eyebrow}</p>
-        <h2 className="text-3xl font-extrabold leading-tight sm:text-4xl">
-          {AI_SECTION.title.map((l) => (
-            <span key={l} className="block">{l}</span>
+        <p className="eyebrow mb-5">{AI_SECTION.eyebrow}</p>
+        <h2 className="text-4xl font-extrabold leading-[1.05] sm:text-5xl lg:text-6xl">
+          {AI_SECTION.title.map((l, i) => (
+            <SplitWords key={l} text={l} delay={i * 0.18} className="block" />
           ))}
         </h2>
-        <p className="mt-5 max-w-xl text-sm leading-relaxed text-white/65 md:text-base">{AI_SECTION.lead}</p>
+        <p className="mt-6 max-w-xl text-base leading-relaxed text-white/65 md:text-lg">{AI_SECTION.lead}</p>
       </Reveal>
 
-      <div className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-6">
+      <div className="mt-14 grid grid-cols-1 gap-5 md:grid-cols-6">
         {AI_SOLUTIONS.map((s, i) => {
           const Icon = ICONS[s.icon];
           return (
-            <Reveal key={s.title} delay={i * 0.07} className={s.wide ? "md:col-span-3" : "md:col-span-2"}>
+            <Reveal key={s.title} delay={i * 0.08} variant={i % 2 ? "scale" : "up"} className={s.wide ? "md:col-span-3" : "md:col-span-2"}>
               <article className="glass-card flex h-full flex-col p-6" data-testid={`ai-card-${i}`}>
                 <div className="icon-tile mb-5">
                   <Icon className="h-5 w-5" aria-hidden="true" />
