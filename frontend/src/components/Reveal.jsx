@@ -72,7 +72,9 @@ export const CountUp = ({ value, className = "", ...rest }) => {
     const unsub = spring.on("change", (v) => {
       if (ref.current) ref.current.textContent = `${Math.round(v)}${suffix}`;
     });
-    return unsub;
+    return () => {
+      if (typeof unsub === "function") unsub();
+    };
   }, [spring, suffix]);
 
   return (
