@@ -5,7 +5,7 @@ export const NewsTicker = () => {
   const { data: items = [] } = useNews();
   return (
     <div
-      className="fixed inset-x-0 top-[57px] z-40 flex items-center border-b border-white/[0.06] bg-[#0b0718]/92"
+      className="fixed inset-x-0 top-[57px] z-40 flex items-center overflow-hidden border-b border-white/[0.06] bg-[#0b0718]/92"
       data-testid="news-ticker"
     >
       <span className="flex shrink-0 items-center gap-2 bg-[#8B3DFF] px-3 py-1.5 font-mono text-[10px] font-medium uppercase tracking-[0.2em] text-white">
