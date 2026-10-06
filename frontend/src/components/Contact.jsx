@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { toast } from "sonner";
@@ -22,8 +22,18 @@ export const Contact = () => {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm({ defaultValues: { name: "", email: "", message: "" } });
+
+  useEffect(() => {
+    const onPrefill = (e) => {
+      setSubmitted(false);
+      setValue("message", e.detail, { shouldDirty: true });
+    };
+    window.addEventListener("prefill-contact", onPrefill);
+    return () => window.removeEventListener("prefill-contact", onPrefill);
+  }, [setValue]);
 
   const onSubmit = async (values) => {
     try {
@@ -37,7 +47,7 @@ export const Contact = () => {
 
   return (
     <section id="contact" className="relative mx-auto max-w-3xl px-6 py-24 md:py-32" data-testid="contact-section">
-      <SectionDecor index="05" />
+      <SectionDecor index="06" />
       <Reveal>
         <p className="eyebrow mb-5">{CONTACT.eyebrow}</p>
         <h2 className="text-4xl font-extrabold leading-[1.05] sm:text-5xl lg:text-6xl">

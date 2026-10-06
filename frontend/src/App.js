@@ -15,6 +15,7 @@ import { AISolutions } from "@/components/AISolutions";
 import { Services } from "@/components/Services";
 import { Projects } from "@/components/Projects";
 import { About } from "@/components/About";
+import { Estimator } from "@/components/Estimator";
 import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
 import { ChatWidget } from "@/components/ChatWidget";
@@ -59,6 +60,7 @@ const Home = () => {
         <Services />
         <Projects />
         <About />
+        <Estimator />
         <Contact />
       </main>
       <Footer />

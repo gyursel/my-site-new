@@ -14,6 +14,7 @@ export const NAV_LINKS = [
   { id: "services", label: "Услуги" },
   { id: "projects", label: "Проекти" },
   { id: "about", label: "За мен" },
+  { id: "estimate", label: "Оценка" },
   { id: "contact", label: "Контакти" },
 ];
 
