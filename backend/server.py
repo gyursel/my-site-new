@@ -39,6 +39,32 @@ logger = logging.getLogger(__name__)
 ALLOWED_UPLOAD_TYPES = {"image/jpeg", "image/png", "image/webp", "application/pdf", "text/plain", "text/csv"}
 MAX_UPLOAD_BYTES = 10 * 1024 * 1024
 
+# ---------- CORS ----------
+# IMPORTANT:
+# When allow_credentials=True, browsers do NOT allow Access-Control-Allow-Origin: *.
+# Therefore we keep an explicit allow-list and optionally extend it via CORS_ORIGINS.
+DEFAULT_CORS_ORIGINS = [
+    "https://my-site-new-neon.vercel.app",
+    "https://ai-portfolio-glow.preview.emergentagent.com",
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+]
+
+
+def _cors_origins() -> list[str]:
+    raw = os.environ.get("CORS_ORIGINS", "")
+    extra = [origin.strip().rstrip("/") for origin in raw.split(",") if origin.strip()]
+    origins = []
+    for origin in [*DEFAULT_CORS_ORIGINS, *extra]:
+        origin = origin.strip().rstrip("/")
+        if origin and origin != "*" and origin not in origins:
+            origins.append(origin)
+    return origins
+
+
+CORS_ORIGINS = _cors_origins()
+logger.info("CORS allowed origins: %s", CORS_ORIGINS)
+
 
 # ---------- Models ----------
 class ContactMessage(BaseModel):
@@ -97,7 +123,15 @@ async def get_current_user(request: Request) -> dict:
 
 
 def set_auth_cookie(response: Response, token: str):
-    response.set_cookie("access_token", token, httponly=True, secure=True, samesite="lax", max_age=43200, path="/")
+    response.set_cookie(
+        "access_token",
+        token,
+        httponly=True,
+        secure=True,
+        samesite="none",
+        max_age=43200,
+        path="/",
+    )
 
 
 @api_router.post("/auth/login")
@@ -117,7 +151,7 @@ async def login(data: LoginInput, request: Request, response: Response):
 
 @api_router.post("/auth/logout")
 async def logout(response: Response):
-    response.delete_cookie("access_token", path="/")
+    response.delete_cookie("access_token", path="/", secure=True, samesite="none")
     return {"ok": True}
 
 
@@ -295,7 +329,7 @@ app.include_router(api_router)
 app.add_middleware(
     CORSMiddleware,
     allow_credentials=True,
-    allow_origins=os.environ.get('CORS_ORIGINS', '*').split(','),
+    allow_origins=CORS_ORIGINS,
     allow_methods=["*"],
     allow_headers=["*"],
 )
