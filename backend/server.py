@@ -223,6 +223,48 @@ async def get_news(limit: int = 40):
 
 
 # ---------- AI chat ----------
+@api_router.get("/chat/sessions")
+async def chat_sessions(user: dict = Depends(get_current_user)):
+    pipeline = [
+        {"$sort": {"created_at": 1}},
+        {"$group": {
+            "_id": "$session_id",
+            "count": {"$sum": 1},
+            "first_at": {"$first": "$created_at"},
+            "last_at": {"$last": "$created_at"},
+            "providers": {"$addToSet": "$provider"},
+            "preview": {"$first": {"$cond": [{"$eq": ["$role", "user"]}, "$content", None]}},
+            "messages": {"$push": {"role": "$role", "content": "$content"}},
+        }},
+        {"$sort": {"last_at": -1}},
+        {"$limit": 200},
+    ]
+    out = []
+    async for g in db.chat_messages.aggregate(pipeline):
+        preview = next((m["content"] for m in g["messages"] if m["role"] == "user"), "")
+        out.append({
+            "session_id": g["_id"], "count": g["count"], "first_at": g["first_at"], "last_at": g["last_at"],
+            "providers": g["providers"], "preview": preview[:160],
+        })
+    return out
+
+
+@api_router.get("/chat/sessions/{session_id}")
+async def chat_session_detail(session_id: str, user: dict = Depends(get_current_user)):
+    docs = await db.chat_messages.find({"session_id": session_id}, {"_id": 0}).sort("created_at", 1).to_list(500)
+    if not docs:
+        raise HTTPException(status_code=404, detail="Разговорът не е намерен")
+    return docs
+
+
+@api_router.delete("/chat/sessions/{session_id}", status_code=204)
+async def chat_session_delete(session_id: str, user: dict = Depends(get_current_user)):
+    await db.chat_messages.delete_many({"session_id": session_id})
+    for p in ai.MODELS:
+        ai.drop_chat(session_id, p)
+    return Response(status_code=204)
+
+
 @api_router.get("/chat/models")
 async def chat_models():
     return [{"id": k, "label": v[2], "model": v[1]} for k, v in ai.MODELS.items()]

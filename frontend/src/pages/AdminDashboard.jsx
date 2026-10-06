@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { Inbox, FolderOpen, LogOut, Trash2, Download, ArrowLeft, Loader2 } from "lucide-react";
+import { Inbox, FolderOpen, LogOut, Trash2, Download, ArrowLeft, Loader2, MessagesSquare } from "lucide-react";
 import { api, formatApiError, setToken } from "../lib/api";
 import { LogoMark } from "../components/LogoMark";
+import { AdminChatLogs } from "../components/AdminChatLogs";
 
 const fmtDate = (iso) => new Date(iso).toLocaleString("bg-BG", { dateStyle: "short", timeStyle: "short" });
 const fmtSize = (b) => (b > 1024 * 1024 ? `${(b / 1024 / 1024).toFixed(1)} MB` : `${Math.max(1, Math.round(b / 1024))} KB`);
@@ -98,7 +99,12 @@ export default function AdminDashboard() {
         <button type="button" role="tab" aria-selected={tab === "files"} onClick={() => setTab("files")} className={`chip !px-4 !py-2 !text-xs ${tab === "files" ? "!border-[#B16CFF] !bg-[#8B3DFF]/25 !text-white shadow-[0_0_18px_rgba(139,61,255,0.45)]" : ""}`} data-testid="admin-tab-files">
           <FolderOpen className="mr-1.5 h-3.5 w-3.5" /> Файлове ({files.length})
         </button>
+        <button type="button" role="tab" aria-selected={tab === "chats"} onClick={() => setTab("chats")} className={`chip !px-4 !py-2 !text-xs ${tab === "chats" ? "!border-[#B16CFF] !bg-[#8B3DFF]/25 !text-white shadow-[0_0_18px_rgba(139,61,255,0.45)]" : ""}`} data-testid="admin-tab-chats">
+          <MessagesSquare className="mr-1.5 h-3.5 w-3.5" /> AI разговори
+        </button>
       </div>
+
+      {tab === "chats" && <AdminChatLogs />}
 
       {tab === "contacts" && (
         <section className="mt-6 space-y-3" data-testid="admin-contacts-list">

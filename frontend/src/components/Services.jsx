@@ -1,11 +1,13 @@
 import { Smartphone, Globe, Bot, Database, Rocket, Compass } from "lucide-react";
 import { SERVICES, SERVICES_SECTION } from "../data/content";
 import { Reveal, SplitWords } from "./Reveal";
+import { SectionDecor } from "./SectionDecor";
 
 const ICONS = { Smartphone, Globe, Bot, Database, Rocket, Compass };
 
 export const Services = () => (
-  <section id="services" className="mx-auto max-w-6xl px-6 py-24 md:py-32" data-testid="services-section">
+  <section id="services" className="relative mx-auto max-w-6xl px-6 py-24 md:py-32" data-testid="services-section">
+    <SectionDecor index="02" />
     <Reveal>
       <p className="eyebrow mb-5">{SERVICES_SECTION.eyebrow}</p>
       <h2 className="text-4xl font-extrabold leading-[1.05] sm:text-5xl lg:text-6xl">

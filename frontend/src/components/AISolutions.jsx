@@ -1,6 +1,7 @@
 import { MessageSquareText, Workflow, FileText, ScanEye, Smartphone, Sparkles } from "lucide-react";
 import { AI_SECTION, AI_SOLUTIONS } from "../data/content";
 import { Reveal, SplitWords } from "./Reveal";
+import { SectionDecor } from "./SectionDecor";
 import { useChat } from "../context/ChatContext";
 
 const ICONS = { MessageSquareText, Workflow, FileText, ScanEye, Smartphone };
@@ -8,7 +9,8 @@ const ICONS = { MessageSquareText, Workflow, FileText, ScanEye, Smartphone };
 export const AISolutions = () => {
   const { openWithPrompt } = useChat();
   return (
-    <section id="ai" className="mx-auto max-w-6xl px-6 py-24 md:py-32" data-testid="ai-section">
+    <section id="ai" className="relative mx-auto max-w-6xl px-6 py-24 md:py-32" data-testid="ai-section">
+      <SectionDecor index="01" />
       <Reveal>
         <p className="eyebrow mb-5">{AI_SECTION.eyebrow}</p>
         <h2 className="text-4xl font-extrabold leading-[1.05] sm:text-5xl lg:text-6xl">

@@ -187,6 +187,37 @@
         box-shadow: 0 10px 40px -20px rgba(139, 61, 255, 0.45), inset 0 -1px 0 rgba(255,255,255,0.04);
     }
 
+    .section-divider {
+        background: linear-gradient(90deg, transparent 0%, rgba(201,160,255,0.9) 20%, rgba(0,229,255,0.7) 60%, transparent 100%);
+        box-shadow: 0 0 18px rgba(177,108,255,0.6);
+    }
+
+    .section-number {
+        font-family: 'Manrope', sans-serif;
+        font-weight: 800;
+        font-size: clamp(7rem, 18vw, 16rem);
+        line-height: 1;
+        letter-spacing: -0.06em;
+        color: transparent;
+        -webkit-text-stroke: 1px rgba(201,160,255,0.22);
+        background: linear-gradient(180deg, rgba(139,61,255,0.14), rgba(139,61,255,0));
+        -webkit-background-clip: text;
+        background-clip: text;
+    }
+
+    html.has-cursor, html.has-cursor * { cursor: none !important; }
+
+    .case-media {
+        @apply relative overflow-hidden rounded-2xl border border-[#B16CFF]/30;
+        box-shadow: 0 0 40px rgba(139,61,255,0.25);
+    }
+
+    .case-media img {
+        @apply h-full w-full object-cover transition-transform duration-700;
+    }
+
+    .case-media:hover img { transform: scale(1.04); }
+
     .noise {
         opacity: 0.045;
         mix-blend-mode: overlay;

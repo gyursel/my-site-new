@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { HERO, IMAGES } from "../data/content";
+import { Magnetic } from "./Magnetic";
 
 const EASE = [0.22, 1, 0.36, 1];
 
@@ -100,13 +101,17 @@ export const Hero = () => {
         </motion.p>
 
         <motion.div className="mt-9 flex flex-wrap items-center gap-4" {...fade(0.65)}>
-          <a href="#contact" className="btn-primary group" data-testid="hero-primary-cta">
-            {HERO.cta}
-            <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true" />
-          </a>
-          <a href="#ai" className="btn-secondary" data-testid="hero-secondary-cta">
-            Виж AI решенията
-          </a>
+          <Magnetic>
+            <a href="#contact" className="btn-primary group" data-testid="hero-primary-cta">
+              {HERO.cta}
+              <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true" />
+            </a>
+          </Magnetic>
+          <Magnetic strength={0.2}>
+            <a href="#ai" className="btn-secondary" data-testid="hero-secondary-cta">
+              Виж AI решенията
+            </a>
+          </Magnetic>
         </motion.div>
 
         <motion.div className="mt-9 flex flex-wrap gap-2" {...fade(0.75)} data-testid="hero-tags">

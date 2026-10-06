@@ -17,7 +17,7 @@ export const Footer = () => (
             <Lock className="h-3 w-3" aria-hidden="true" /> Админ
           </Link>
           <a
-            href="#intro"
+            href="/#intro"
             className="group inline-flex items-center gap-2 text-sm font-medium text-white/60 transition-colors duration-300 hover:text-[#C9A0FF]"
             data-testid="footer-back-to-top"
           >

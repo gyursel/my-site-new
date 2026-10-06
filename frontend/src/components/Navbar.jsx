@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X, Sparkles } from "lucide-react";
 import { BRAND, NAV_LINKS } from "../data/content";
 import { LogoMark } from "./LogoMark";
+import { Magnetic } from "./Magnetic";
 import { useChat } from "../context/ChatContext";
 
 const useScrolled = (threshold = 24) => {
@@ -33,6 +34,12 @@ const useActiveSection = (ids) => {
 
 const IDS = NAV_LINKS.map((l) => l.id);
 
+const NavAnchor = ({ id, children, ...props }) => {
+  const { pathname } = useLocation();
+  if (pathname === "/") return <a href={`#${id}`} {...props}>{children}</a>;
+  return <Link to={`/#${id}`} {...props}>{children}</Link>;
+};
+
 export const Navbar = () => {
   const [open, setOpen] = useState(false);
   const { openWithPrompt } = useChat();
@@ -57,15 +64,15 @@ export const Navbar = () => {
 
           <div className="hidden items-center gap-7 md:flex">
             {NAV_LINKS.map((l) => (
-              <a
+              <NavAnchor
                 key={l.id}
-                href={`#${l.id}`}
+                id={l.id}
                 data-testid={`nav-link-${l.id}`}
                 className={`nav-link ${active === l.id ? "nav-link--active" : ""}`}
                 aria-current={active === l.id ? "true" : undefined}
               >
                 {l.label}
-              </a>
+              </NavAnchor>
             ))}
           </div>
 
@@ -74,9 +81,11 @@ export const Navbar = () => {
               <Sparkles className="h-4 w-4 text-[#C9A0FF]" aria-hidden="true" />
               Питай AI
             </button>
-            <a href="#contact" className="btn-primary !px-5 !py-2" data-testid="nav-cta">
-              Свържи се
-            </a>
+            <Magnetic strength={0.25}>
+              <NavAnchor id="contact" className="btn-primary !px-5 !py-2" data-testid="nav-cta">
+                Свържи се
+              </NavAnchor>
+            </Magnetic>
           </div>
 
           <button
@@ -102,18 +111,21 @@ export const Navbar = () => {
             data-testid="nav-mobile-menu"
           >
             {NAV_LINKS.map((l, i) => (
-              <motion.a
+              <motion.div
                 key={l.id}
-                href={`#${l.id}`}
-                data-testid={`nav-mobile-link-${l.id}`}
-                onClick={() => setOpen(false)}
                 initial={{ opacity: 0, x: -12 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.05 + i * 0.05 }}
-                className="rounded-xl px-4 py-3 text-base font-semibold text-white/80 transition-[background-color,color,transform] duration-300 hover:translate-x-1 hover:bg-[#8B3DFF]/15 hover:text-[#C9A0FF]"
               >
-                {l.label}
-              </motion.a>
+                <NavAnchor
+                  id={l.id}
+                  data-testid={`nav-mobile-link-${l.id}`}
+                  onClick={() => setOpen(false)}
+                  className="block rounded-xl px-4 py-3 text-base font-semibold text-white/80 transition-[background-color,color,transform] duration-300 hover:translate-x-1 hover:bg-[#8B3DFF]/15 hover:text-[#C9A0FF]"
+                >
+                  {l.label}
+                </NavAnchor>
+              </motion.div>
             ))}
             <button
               type="button"

@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { Toaster } from "sonner";
 import "@/App.css";
 import { ChatProvider, useChat } from "@/context/ChatContext";
-import { useSmoothScroll } from "@/hooks/useSmoothScroll";
+import { useSmoothScroll, scrollToHash } from "@/hooks/useSmoothScroll";
 import { ScrollProgress } from "@/components/ScrollProgress";
 import { Navbar } from "@/components/Navbar";
 import { NewsTicker } from "@/components/NewsTicker";
@@ -18,8 +18,10 @@ import { About } from "@/components/About";
 import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
 import { ChatWidget } from "@/components/ChatWidget";
+import { CustomCursor } from "@/components/CustomCursor";
 import AdminLogin from "@/pages/AdminLogin";
 import AdminDashboard from "@/pages/AdminDashboard";
+import CaseStudy from "@/pages/CaseStudy";
 
 const useCardGlow = () => {
   useEffect(() => {
@@ -66,10 +68,15 @@ const Home = () => {
 };
 
 const ScrollToTop = () => {
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
   useEffect(() => {
+    if (hash) {
+      const t = setTimeout(() => scrollToHash(hash), 250);
+      return () => clearTimeout(t);
+    }
     window.scrollTo(0, 0);
-  }, [pathname]);
+    return undefined;
+  }, [pathname, hash]);
   return null;
 };
 
@@ -78,8 +85,10 @@ export default function App() {
     <BrowserRouter>
       <ChatProvider>
         <ScrollToTop />
+        <CustomCursor />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/projects/:slug" element={<CaseStudy />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin" element={<AdminDashboard />} />
         </Routes>

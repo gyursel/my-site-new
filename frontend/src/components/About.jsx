@@ -1,8 +1,10 @@
 import { ABOUT, IMAGES } from "../data/content";
 import { CountUp, Reveal, SplitWords } from "./Reveal";
+import { SectionDecor } from "./SectionDecor";
 
 export const About = () => (
-  <section id="about" className="mx-auto max-w-6xl px-6 py-24 md:py-32" data-testid="about-section">
+  <section id="about" className="relative mx-auto max-w-6xl px-6 py-24 md:py-32" data-testid="about-section">
+    <SectionDecor index="04" />
     <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12">
       <Reveal variant="left" className="lg:col-span-5">
         <div className="relative mx-auto max-w-sm">

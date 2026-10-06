@@ -5,6 +5,8 @@ import { toast } from "sonner";
 import { Mail, Phone, MapPin, CheckCircle2, Send, Loader2 } from "lucide-react";
 import { CONTACT } from "../data/content";
 import { Reveal, SplitWords } from "./Reveal";
+import { SectionDecor } from "./SectionDecor";
+import { Magnetic } from "./Magnetic";
 
 const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
 
@@ -34,7 +36,8 @@ export const Contact = () => {
   };
 
   return (
-    <section id="contact" className="mx-auto max-w-3xl px-6 py-24 md:py-32" data-testid="contact-section">
+    <section id="contact" className="relative mx-auto max-w-3xl px-6 py-24 md:py-32" data-testid="contact-section">
+      <SectionDecor index="05" />
       <Reveal>
         <p className="eyebrow mb-5">{CONTACT.eyebrow}</p>
         <h2 className="text-4xl font-extrabold leading-[1.05] sm:text-5xl lg:text-6xl">
@@ -108,19 +111,21 @@ export const Contact = () => {
                 {errors.message && <p className="mt-2 text-sm text-red-400" data-testid="contact-message-error">{errors.message.message}</p>}
               </div>
 
-              <button type="submit" className="btn-primary w-full sm:w-auto" disabled={isSubmitting} data-testid="contact-form-submit">
-                {isSubmitting ? (
-                  <>
-                    <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
-                    Изпращане...
-                  </>
-                ) : (
-                  <>
-                    Изпрати запитване
-                    <Send className="h-4 w-4" aria-hidden="true" />
-                  </>
-                )}
-              </button>
+              <Magnetic className="w-full sm:w-auto">
+                <button type="submit" className="btn-primary w-full sm:w-auto" disabled={isSubmitting} data-testid="contact-form-submit">
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+                      Изпращане...
+                    </>
+                  ) : (
+                    <>
+                      Изпрати запитване
+                      <Send className="h-4 w-4" aria-hidden="true" />
+                    </>
+                  )}
+                </button>
+              </Magnetic>
             </form>
           )}
 
