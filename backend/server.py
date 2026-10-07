@@ -334,13 +334,19 @@ async def chat(input: ChatInput):
 
 app.include_router(api_router)
 
+CORS_ORIGINS = [
+    origin.strip()
+    for origin in os.environ.get(
+        "CORS_ORIGINS",
+        "https://my-site-new-neon.vercel.app,http://localhost:3000"
+    ).split(",")
+    if origin.strip()
+]
+
 app.add_middleware(
     CORSMiddleware,
     allow_credentials=True,
-    allow_origins=[
-        "https://my-site-new-neon.vercel.app",
-        "https://f7584b9f-4afd-421c-9ce3-47c65353accc.preview.emergentagent.com",
-    ],
+    allow_origins=CORS_ORIGINS,
     allow_methods=["*"],
     allow_headers=["*"],
 )

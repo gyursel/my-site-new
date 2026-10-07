@@ -1,45 +1,70 @@
 import os
 
-import requests
+from bson.binary import Binary
+from pymongo import MongoClient
 
-STORAGE_BASE = (os.environ.get("INTEGRATION_PROXY_URL") or "").strip() or "https://integrations.emergentagent.com"
-STORAGE_URL = STORAGE_BASE.rstrip("/") + "/objstore/api/v1/storage"
+
 APP_NAME = "gursel-portfolio"
-storage_key = None
+
+_client = None
+_collection = None
 
 
 def init_storage(force: bool = False):
-    global storage_key
-    if storage_key and not force:
-        return storage_key
-    resp = requests.post(f"{STORAGE_URL}/init", json={"emergent_key": os.environ["EMERGENT_LLM_KEY"]}, timeout=30)
-    resp.raise_for_status()
-    storage_key = resp.json()["storage_key"]
-    return storage_key
+    global _client, _collection
+
+    if _collection is not None and not force:
+        return _collection
+
+    mongo_url = os.environ["MONGO_URL"]
+    db_name = os.environ["DB_NAME"]
+
+    _client = MongoClient(
+        mongo_url,
+        serverSelectionTimeoutMS=10000,
+        connectTimeoutMS=10000,
+    )
+
+    # Проверка на връзката с MongoDB Atlas
+    _client.admin.command("ping")
+
+    db = _client[db_name]
+    _collection = db["object_storage"]
+
+    return _collection
 
 
 def put_object(path: str, data: bytes, content_type: str) -> dict:
-    key = init_storage()
-    resp = requests.put(
-        f"{STORAGE_URL}/objects/{path}",
-        headers={"X-Storage-Key": key, "Content-Type": content_type},
-        data=data,
-        timeout=120,
+    collection = init_storage()
+
+    collection.update_one(
+        {"_id": path},
+        {
+            "$set": {
+                "data": Binary(data),
+                "content_type": content_type,
+                "size": len(data),
+            }
+        },
+        upsert=True,
     )
-    if resp.status_code == 404:
-        key = init_storage(force=True)
-        resp = requests.put(
-            f"{STORAGE_URL}/objects/{path}",
-            headers={"X-Storage-Key": key, "Content-Type": content_type},
-            data=data,
-            timeout=120,
-        )
-    resp.raise_for_status()
-    return resp.json()
+
+    return {
+        "path": path,
+        "size": len(data),
+        "content_type": content_type,
+    }
 
 
 def get_object(path: str) -> tuple[bytes, str]:
-    key = init_storage()
-    resp = requests.get(f"{STORAGE_URL}/objects/{path}", headers={"X-Storage-Key": key}, timeout=60)
-    resp.raise_for_status()
-    return resp.content, resp.headers.get("Content-Type", "application/octet-stream")
+    collection = init_storage()
+
+    obj = collection.find_one({"_id": path})
+
+    if not obj:
+        raise FileNotFoundError(f"Object not found: {path}")
+
+    return (
+        bytes(obj["data"]),
+        obj.get("content_type", "application/octet-stream"),
+    )
