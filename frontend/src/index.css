@@ -6,17 +6,17 @@
 
 @layer base {
     :root {
-        --background: 258 50% 4%;
+        --background: 258 42% 8%;
         --foreground: 0 0% 100%;
-        --card: 258 45% 7%;
+        --card: 258 40% 10%;
         --card-foreground: 0 0% 100%;
-        --popover: 258 45% 7%;
+        --popover: 258 40% 10%;
         --popover-foreground: 0 0% 100%;
         --primary: 268 100% 71%;
         --primary-foreground: 258 60% 4%;
         --secondary: 186 100% 50%;
         --secondary-foreground: 258 60% 4%;
-        --muted: 258 30% 12%;
+        --muted: 258 28% 16%;
         --muted-foreground: 0 0% 70%;
         --accent: 268 100% 71%;
         --accent-foreground: 0 0% 100%;
@@ -29,7 +29,7 @@
         --violet: #B16CFF;
         --violet-deep: #8B3DFF;
         --cyan: #00E5FF;
-        --bg: #06040D;
+        --bg: #0D0920;
     }
 
     * {
@@ -53,9 +53,14 @@
     }
 
     body {
-        @apply bg-[#06040D] text-white antialiased;
+        @apply bg-[#0D0920] text-white antialiased;
         font-family: 'Manrope', sans-serif;
         overflow-x: clip;
+        background-image:
+            radial-gradient(circle at 50% 12%, rgba(92, 55, 155, 0.28), transparent 36%),
+            radial-gradient(circle at 15% 42%, rgba(0, 229, 255, 0.06), transparent 30%),
+            linear-gradient(180deg, #15102A 0%, #0D0920 46%, #0A0717 100%);
+        background-attachment: fixed;
     }
 
     h1, h2, h3, .font-display {
@@ -181,7 +186,7 @@
 
     .nav-shell--glass {
         @apply border-white/10;
-        background: rgba(6, 4, 13, 0.55);
+        background: rgba(13, 9, 32, 0.62);
         backdrop-filter: blur(18px) saturate(160%);
         -webkit-backdrop-filter: blur(18px) saturate(160%);
         box-shadow: 0 10px 40px -20px rgba(139, 61, 255, 0.45), inset 0 -1px 0 rgba(255,255,255,0.04);
