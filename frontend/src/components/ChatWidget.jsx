@@ -7,7 +7,6 @@ import { api, formatApiError, streamChat } from "../lib/api";
 import { ChatMessage } from "./ChatMessage";
 
 const PROVIDERS = [
-  { id: "openai", label: "ChatGPT" },
   { id: "anthropic", label: "Claude" },
 ];
 
@@ -19,7 +18,7 @@ const SUGGESTIONS = [
 
 export const ChatWidget = () => {
   const { open, setOpen, draft, setDraft, sessionId, resetSession } = useChat();
-  const [provider, setProvider] = useState("openai");
+  const [provider, setProvider] = useState("anthropic");
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [files, setFiles] = useState([]);

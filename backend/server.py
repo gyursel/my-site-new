@@ -71,7 +71,7 @@ class UserOut(BaseModel):
 class ChatInput(BaseModel):
     session_id: str = Field(min_length=12, max_length=100)
     message: str = Field(min_length=1, max_length=4000)
-    provider: str = Field(default="openai", pattern="^(openai|anthropic)$")
+    provider: str = Field(default="anthropic", pattern="^anthropic$")
     file_ids: List[str] = Field(default_factory=list)
 
 

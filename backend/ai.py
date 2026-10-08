@@ -9,11 +9,6 @@ from pypdf import PdfReader
 
 
 MODELS = {
-    "openai": (
-        "openai",
-        os.environ.get("OPENAI_MODEL", "gpt-4.1-mini"),
-        "ChatGPT",
-    ),
     "anthropic": (
         "anthropic",
         os.environ.get("ANTHROPIC_MODEL", "claude-sonnet-4-5"),
