@@ -8,8 +8,10 @@ export const LightStreams = ({ paused }) => {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext("2d", { alpha: true });
     let raf;
+    let scrollTimer;
+    let scrolling = false;
     let w = 0;
     let h = 0;
     const dpr = 1;
@@ -22,10 +24,11 @@ export const LightStreams = ({ paused }) => {
       canvas.height = h * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
-    resize();
-    window.addEventListener("resize", resize);
 
-    const COUNT = isMobile ? 4 : 6;
+    resize();
+    window.addEventListener("resize", resize, { passive: true });
+
+    const COUNT = isMobile ? 3 : 5;
     const streams = Array.from({ length: COUNT }, (_, i) => ({
       yBase: (i + 0.5) / COUNT,
       amp: 40 + Math.random() * 90,
@@ -41,7 +44,7 @@ export const LightStreams = ({ paused }) => {
       for (const s of streams) {
         ctx.beginPath();
         const yb = s.yBase * h;
-        for (let x = -20; x <= w + 20; x += 32) {
+        for (let x = -20; x <= w + 20; x += 48) {
           const y =
             yb +
             Math.sin(x * s.freq + t * 0.001 * s.speed + s.phase) * s.amp +
@@ -49,18 +52,27 @@ export const LightStreams = ({ paused }) => {
           if (x === -20) ctx.moveTo(x, y);
           else ctx.lineTo(x, y);
         }
-        ctx.strokeStyle = `rgba(${s.hue},0.08)`;
-        ctx.lineWidth = s.width + 6;
+        ctx.strokeStyle = `rgba(${s.hue},0.07)`;
+        ctx.lineWidth = s.width + 5;
         ctx.stroke();
-        ctx.strokeStyle = `rgba(${s.hue},0.4)`;
+        ctx.strokeStyle = `rgba(${s.hue},0.36)`;
         ctx.lineWidth = s.width;
         ctx.stroke();
       }
     };
 
+    const onScroll = () => {
+      scrolling = true;
+      clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(() => {
+        scrolling = false;
+      }, 90);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+
     let last = 0;
     const loop = (t) => {
-      if (!pausedRef.current && t - last > 33) {
+      if (!pausedRef.current && !scrolling && t - last > 41) {
         last = t;
         draw(t);
       }
@@ -76,7 +88,9 @@ export const LightStreams = ({ paused }) => {
 
     return () => {
       cancelAnimationFrame(raf);
+      clearTimeout(scrollTimer);
       window.removeEventListener("resize", resize);
+      window.removeEventListener("scroll", onScroll);
       document.removeEventListener("visibilitychange", onVis);
     };
   }, []);
