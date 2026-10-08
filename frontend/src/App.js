@@ -6,8 +6,6 @@ import { ChatProvider, useChat } from "@/context/ChatContext";
 import { useSmoothScroll, scrollToHash } from "@/hooks/useSmoothScroll";
 import { ScrollProgress } from "@/components/ScrollProgress";
 import { Navbar } from "@/components/Navbar";
-import { NewsTicker } from "@/components/NewsTicker";
-import { NewsPanel } from "@/components/NewsPanel";
 import { LightStreams } from "@/components/LightStreams";
 import { Hero } from "@/components/Hero";
 import { TechTicker } from "@/components/TechTicker";
@@ -51,8 +49,6 @@ const Home = () => {
       </div>
       <ScrollProgress />
       <Navbar />
-      <NewsTicker />
-      <NewsPanel />
       <main>
         <Hero />
         <TechTicker />
