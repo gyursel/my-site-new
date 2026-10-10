@@ -26,22 +26,34 @@ export const AISolutions = () => {
           const Icon = ICONS[s.icon];
           return (
             <Reveal key={s.title} delay={i * 0.08} variant={i % 2 ? "scale" : "up"} className={s.wide ? "md:col-span-3" : "md:col-span-2"}>
-              <article className="glass-card flex h-full flex-col p-6" data-testid={`ai-card-${i}`}>
-                <div className="icon-tile mb-5">
-                  <Icon className="h-5 w-5" aria-hidden="true" />
+              <article className="glass-card group flex h-full flex-col overflow-hidden" data-testid={`ai-card-${i}`}>
+                <div className="relative overflow-hidden">
+                  <img
+                    src={s.image}
+                    alt={s.title}
+                    loading="lazy"
+                    decoding="async"
+                    className="aspect-[16/9] w-full object-cover saturate-[1.18] contrast-[1.06] brightness-[1.06] transition-transform duration-700 group-hover:scale-[1.045]"
+                  />
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#120927]/85 via-transparent to-transparent" />
+                  <div className="icon-tile absolute bottom-4 left-4 !mb-0 backdrop-blur-md">
+                    <Icon className="h-5 w-5" aria-hidden="true" />
+                  </div>
                 </div>
-                <h3 className="text-base font-bold md:text-lg">{s.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-white/60">{s.text}</p>
-                <p className="meta-mono mt-4">{s.meta}</p>
-                <button
-                  type="button"
-                  onClick={() => openWithPrompt(s.prompt)}
-                  className="group/ask mt-auto inline-flex items-center gap-2 pt-6 text-sm font-semibold text-[#C9A0FF] transition-[color,transform] duration-300 hover:translate-x-1 hover:text-white"
-                  data-testid={`ai-card-ask-${i}`}
-                >
-                  <Sparkles className="h-4 w-4 transition-transform duration-500 group-hover/ask:rotate-180 group-hover/ask:scale-125" aria-hidden="true" />
-                  {AI_SECTION.askLabel}
-                </button>
+                <div className="flex flex-1 flex-col p-6">
+                  <h3 className="text-base font-bold md:text-lg">{s.title}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-white/60">{s.text}</p>
+                  <p className="meta-mono mt-4">{s.meta}</p>
+                  <button
+                    type="button"
+                    onClick={() => openWithPrompt(s.prompt)}
+                    className="group/ask mt-auto inline-flex items-center gap-2 pt-6 text-sm font-semibold text-[#C9A0FF] transition-[color,transform] duration-300 hover:translate-x-1 hover:text-white"
+                    data-testid={`ai-card-ask-${i}`}
+                  >
+                    <Sparkles className="h-4 w-4 transition-transform duration-500 group-hover/ask:rotate-180 group-hover/ask:scale-125" aria-hidden="true" />
+                    {AI_SECTION.askLabel}
+                  </button>
+                </div>
               </article>
             </Reveal>
           );
