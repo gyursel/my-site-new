@@ -4,9 +4,9 @@ import { BRAND, TECH_ITEMS } from "../data/content";
 import { LogoMark } from "./LogoMark";
 
 export const Footer = () => (
-  <footer className="border-t border-white/5 px-6 py-10" data-testid="footer">
+  <footer className="border-t border-white/5 px-4 py-8 sm:px-6 sm:py-10" data-testid="footer">
     <div className="mx-auto max-w-6xl">
-      <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
+      <div className="flex flex-col items-start justify-between gap-5 sm:flex-row sm:items-center sm:gap-6">
         <div className="flex items-center gap-3">
           <LogoMark className="h-8 w-8" />
           <span className="text-sm font-semibold">{BRAND}</span>
@@ -26,7 +26,7 @@ export const Footer = () => (
           </a>
         </div>
       </div>
-      <div className="mt-8 flex flex-wrap gap-x-5 gap-y-2" aria-hidden="true">
+      <div className="mt-6 hidden flex-wrap gap-x-5 gap-y-2 sm:flex sm:mt-8" aria-hidden="true">
         {TECH_ITEMS.map((t) => (
           <span key={t} className="font-mono text-[11px] text-white/30">{t}</span>
         ))}
