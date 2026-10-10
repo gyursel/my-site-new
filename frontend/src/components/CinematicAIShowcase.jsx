@@ -30,6 +30,8 @@ export const CinematicAIShowcase = ({ index = 0 }) => {
         <div className="group relative overflow-hidden rounded-[20px] sm:rounded-[28px] border border-[#B16CFF]/30 shadow-[0_24px_80px_rgba(67,24,120,0.28)]">
           <img
             src={item.image}
+            srcSet={`${item.image.replace("w=2200", "w=720")} 720w, ${item.image.replace("w=2200", "w=1200")} 1200w, ${item.image} 2200w`}
+            sizes="(max-width: 767px) 100vw, 1152px"
             alt={item.title}
             loading="lazy"
             decoding="async"
