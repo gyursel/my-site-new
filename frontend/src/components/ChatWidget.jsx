@@ -112,7 +112,7 @@ export const ChatWidget = () => {
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className="chat-fab fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full text-white shadow-[0_0_30px_rgba(139,61,255,0.6)] transition-[transform,box-shadow] duration-300 hover:scale-110 hover:shadow-[0_0_45px_rgba(177,108,255,0.9)] active:scale-95"
+        className="chat-fab fixed bottom-4 right-4 z-50 flex h-13 w-13 sm:bottom-5 sm:right-5 sm:h-14 sm:w-14 items-center justify-center rounded-full text-white shadow-[0_0_30px_rgba(139,61,255,0.6)] transition-[transform,box-shadow] duration-300 hover:scale-110 hover:shadow-[0_0_45px_rgba(177,108,255,0.9)] active:scale-95"
         style={{ background: "linear-gradient(135deg, #B16CFF, #7A2BFF)" }}
         aria-label={open ? "Затвори AI чата" : "Отвори AI чата"}
         data-testid="chat-toggle-button"
@@ -127,12 +127,12 @@ export const ChatWidget = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 24, scale: 0.96 }}
             transition={{ duration: 0.25 }}
-            className="glass-panel fixed bottom-24 right-5 z-50 flex h-[min(620px,calc(100vh-7rem))] w-[min(400px,calc(100vw-2.5rem))] flex-col overflow-hidden"
+            className="glass-panel fixed inset-x-3 bottom-20 z-50 flex h-[min(72svh,620px)] flex-col overflow-hidden sm:inset-x-auto sm:bottom-24 sm:right-5 sm:w-[min(400px,calc(100vw-2.5rem))]"
             data-testid="chat-panel"
             role="dialog"
             aria-label="AI асистент"
           >
-            <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
+            <div className="flex items-center justify-between border-b border-white/10 px-3 py-2.5 sm:px-4 sm:py-3">
               <div>
                 <p className="text-sm font-bold">AI асистент</p>
                 <p className="font-mono text-[10px] uppercase tracking-widest text-[#B16CFF]/80">Гюрсел Исмаилов</p>
@@ -157,7 +157,7 @@ export const ChatWidget = () => {
               </div>
             </div>
 
-            <div ref={listRef} className="flex-1 space-y-3 overflow-y-auto px-4 py-4" data-testid="chat-messages">
+            <div ref={listRef} className="flex-1 space-y-3 overflow-y-auto overscroll-contain px-3 py-3 sm:px-4 sm:py-4" data-testid="chat-messages">
               {messages.length === 0 && (
                 <div className="space-y-3" data-testid="chat-empty-state">
                   <div className="chat-bubble-ai">
@@ -193,7 +193,7 @@ export const ChatWidget = () => {
 
             <form
               onSubmit={(e) => { e.preventDefault(); send(); }}
-              className="flex items-end gap-2 border-t border-white/10 px-3 py-3"
+              className="flex items-end gap-2 border-t border-white/10 px-2.5 py-2.5 sm:px-3 sm:py-3"
               data-testid="chat-form"
             >
               <input ref={fileRef} type="file" accept=".pdf,.png,.jpg,.jpeg,.webp,.txt,.csv" className="hidden" onChange={onPickFile} data-testid="chat-file-input" />
