@@ -5,7 +5,7 @@ import { Reveal, SplitWords } from "./Reveal";
 import { SectionDecor } from "./SectionDecor";
 
 export const Projects = () => (
-  <section id="projects" className="relative mx-auto max-w-6xl px-6 py-20 md:py-28" data-testid="projects-section">
+  <section id="projects" className="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-28" data-testid="projects-section">
     <SectionDecor index="03" />
     <Reveal>
       <p className="eyebrow mb-5">{PROJECTS_SECTION.eyebrow}</p>
@@ -15,7 +15,7 @@ export const Projects = () => (
       <p className="mt-6 max-w-xl text-base leading-relaxed text-white/65 md:text-lg">{PROJECTS_SECTION.lead}</p>
     </Reveal>
 
-    <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
+    <div className="mt-10 grid grid-cols-1 gap-4 sm:mt-12 md:grid-cols-3 md:gap-6">
       {PROJECTS.map((p, i) => {
         const headlineResult = p.results?.[0];
         return (
@@ -42,7 +42,7 @@ export const Projects = () => (
                   </span>
                 </div>
 
-                <div className="flex flex-1 flex-col p-6">
+                <div className="flex flex-1 flex-col p-5 sm:p-6">
                   <span className="meta-mono uppercase">{p.tag}</span>
                   <h3 className="mt-3 text-lg font-bold">{p.title}</h3>
                   <p className="mt-3 text-sm leading-relaxed text-white/65">{p.text}</p>
