@@ -31,6 +31,8 @@ export const Projects = () => (
                     </div>
                     <img
                       src={IMAGES.projects[p.cover]}
+                      srcSet={`${IMAGES.projects[p.cover].replace("w=2000", "w=640")} 640w, ${IMAGES.projects[p.cover].replace("w=2000", "w=960")} 960w, ${IMAGES.projects[p.cover]} 2000w`}
+                      sizes="(max-width: 767px) 100vw, 33vw"
                       alt={p.title}
                       loading="lazy"
                       decoding="async"
