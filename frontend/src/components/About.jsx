@@ -3,9 +3,9 @@ import { CountUp, Reveal, SplitWords } from "./Reveal";
 import { SectionDecor } from "./SectionDecor";
 
 export const About = () => (
-  <section id="about" className="relative mx-auto max-w-6xl px-6 py-24 md:py-32" data-testid="about-section">
+  <section id="about" className="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-28" data-testid="about-section">
     <SectionDecor index="04" />
-    <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12">
+    <div className="grid grid-cols-1 items-center gap-9 md:gap-12 lg:grid-cols-12">
       <Reveal variant="left" className="lg:col-span-5">
         <div className="relative mx-auto max-w-sm">
           <div
@@ -30,10 +30,10 @@ export const About = () => (
         {ABOUT.paragraphs.map((p) => (
           <p key={p} className="mt-6 text-base leading-relaxed text-white/65 md:text-lg">{p}</p>
         ))}
-        <div className="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-4" data-testid="about-stats">
+        <div className="mt-9 grid grid-cols-2 gap-3 sm:mt-12 sm:gap-4 sm:grid-cols-4" data-testid="about-stats">
           {ABOUT.stats.map((s, i) => (
             <Reveal key={s.label} delay={0.2 + i * 0.1} variant="scale">
-              <div className="glass-card p-5">
+              <div className="glass-card p-4 sm:p-5">
                 <CountUp value={s.value} className="text-3xl font-extrabold text-[#C9A0FF]" data-testid={`about-stat-${i}`} />
                 <p className="mt-1 text-xs text-white/55">{s.label}</p>
               </div>
