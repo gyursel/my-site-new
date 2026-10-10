@@ -41,7 +41,7 @@ export const Contact = () => {
   };
 
   return (
-    <section id="contact" className="relative mx-auto max-w-5xl px-6 py-20 md:py-28" data-testid="contact-section">
+    <section id="contact" className="relative mx-auto max-w-5xl px-4 py-16 sm:px-6 md:py-28" data-testid="contact-section">
       <SectionDecor index="06" />
       <Reveal>
         <p className="eyebrow mb-5">{CONTACT.eyebrow}</p>
@@ -51,9 +51,9 @@ export const Contact = () => {
         <p className="mt-6 max-w-xl text-base leading-relaxed text-white/65 md:text-lg">{CONTACT.lead}</p>
       </Reveal>
 
-      <div className="mt-12 grid gap-5 lg:grid-cols-[0.8fr_1.2fr]">
+      <div className="mt-10 grid gap-4 sm:mt-12 sm:gap-5 lg:grid-cols-[0.8fr_1.2fr]">
         <Reveal variant="left">
-          <div className="glass-panel h-full p-6 md:p-8">
+          <div className="glass-panel h-full p-5 sm:p-6 md:p-8">
             <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-[#00E5FF]">DIRECT CONTACT</p>
             <h3 className="mt-3 text-2xl font-bold">Нека поговорим за идеята ви.</h3>
             <p className="mt-3 text-sm leading-relaxed text-white/60">
@@ -88,7 +88,7 @@ export const Contact = () => {
         </Reveal>
 
         <Reveal delay={0.1} variant="blur">
-          <div className="glass-panel p-6 md:p-8">
+          <div className="glass-panel p-5 sm:p-6 md:p-8">
             {submitted ? (
               <div className="flex min-h-[360px] flex-col items-start justify-center gap-4" data-testid="contact-success-message">
                 <CheckCircle2 className="h-12 w-12 text-[#C9A0FF]" aria-hidden="true" />
