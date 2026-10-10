@@ -21,13 +21,25 @@ export const Services = () => (
         const Icon = ICONS[s.icon];
         return (
           <Reveal key={s.title} delay={(i % 3) * 0.1} variant="blur">
-            <article className="glass-card h-full p-6" data-testid={`service-card-${i}`}>
-              <div className="icon-tile mb-5">
-                <Icon className="h-5 w-5" aria-hidden="true" />
+            <article className="glass-card group h-full overflow-hidden" data-testid={`service-card-${i}`}>
+              <div className="relative overflow-hidden">
+                <img
+                  src={s.image}
+                  alt={s.title}
+                  loading="lazy"
+                  decoding="async"
+                  className="aspect-[16/9] w-full object-cover saturate-[1.2] contrast-[1.07] brightness-[1.08] transition-transform duration-700 group-hover:scale-[1.05]"
+                />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#120927]/80 via-transparent to-transparent" />
+                <div className="icon-tile absolute bottom-4 left-4 !mb-0 backdrop-blur-md">
+                  <Icon className="h-5 w-5" aria-hidden="true" />
+                </div>
               </div>
-              <h3 className="text-base font-bold md:text-lg">{s.title}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-white/60">{s.text}</p>
-              <p className="meta-mono mt-4">{s.meta}</p>
+              <div className="p-6">
+                <h3 className="text-base font-bold md:text-lg">{s.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-white/60">{s.text}</p>
+                <p className="meta-mono mt-4">{s.meta}</p>
+              </div>
             </article>
           </Reveal>
         );
