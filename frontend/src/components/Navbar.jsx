@@ -56,7 +56,7 @@ export const Navbar = () => {
       data-scrolled={scrolled}
     >
       <nav className={`nav-shell ${scrolled ? "nav-shell--glass" : ""}`}>
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-2.5 sm:px-5 sm:py-3">
           <Link to="/" className="group flex items-center gap-3" data-testid="nav-logo">
             <LogoMark className="h-8 w-8 transition-transform duration-500 group-hover:rotate-[-8deg] group-hover:scale-110" />
             <span className="text-sm font-bold tracking-wide">{BRAND}</span>
@@ -107,7 +107,7 @@ export const Navbar = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -12, scale: 0.98 }}
             transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-            className="glass-panel mx-4 mt-2 flex flex-col gap-1 p-4 md:hidden"
+            className="glass-panel mx-3 mt-2 flex max-h-[calc(100svh-5rem)] flex-col gap-1 overflow-y-auto p-3 md:hidden"
             data-testid="nav-mobile-menu"
           >
             {NAV_LINKS.map((l, i) => (
@@ -121,7 +121,7 @@ export const Navbar = () => {
                   id={l.id}
                   data-testid={`nav-mobile-link-${l.id}`}
                   onClick={() => setOpen(false)}
-                  className="block rounded-xl px-4 py-3 text-base font-semibold text-white/80 transition-[background-color,color,transform] duration-300 hover:translate-x-1 hover:bg-[#8B3DFF]/15 hover:text-[#C9A0FF]"
+                  className="block rounded-xl px-4 py-2.5 text-[15px] font-semibold text-white/80 transition-[background-color,color,transform] duration-300 hover:translate-x-1 hover:bg-[#8B3DFF]/15 hover:text-[#C9A0FF]"
                 >
                   {l.label}
                 </NavAnchor>
