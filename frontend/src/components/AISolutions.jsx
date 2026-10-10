@@ -30,6 +30,8 @@ export const AISolutions = () => {
                 <div className="relative overflow-hidden">
                   <img
                     src={s.image}
+                    srcSet={`${s.image.replace("w=1600", "w=640")} 640w, ${s.image.replace("w=1600", "w=960")} 960w, ${s.image} 1600w`}
+                    sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw"
                     alt={s.title}
                     loading="lazy"
                     decoding="async"
