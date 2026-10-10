@@ -78,7 +78,7 @@ export const Hero = () => {
     <section
       id="intro"
       ref={ref}
-      className="relative mx-auto grid min-h-screen max-w-6xl grid-cols-1 items-center gap-12 px-6 pb-20 pt-36 lg:grid-cols-12 lg:pt-28"
+      className="relative mx-auto grid min-h-[100svh] max-w-6xl grid-cols-1 items-center gap-10 px-4 pb-14 pt-28 sm:px-6 sm:pb-20 sm:pt-32 lg:min-h-screen lg:grid-cols-12 lg:pt-28"
       data-testid="hero-section"
     >
       <div className="hero-orb left-[-10%] top-[20%] h-72 w-72 bg-[#8B3DFF]/25" aria-hidden="true" />
@@ -98,7 +98,7 @@ export const Hero = () => {
           {HERO.name}
         </motion.p>
 
-        <h1 className="mt-3 text-5xl font-extrabold leading-[1.02] sm:text-6xl lg:text-7xl" data-testid="hero-headline">
+        <h1 className="mt-3 text-[2.65rem] font-extrabold leading-[1.02] sm:text-6xl lg:text-7xl" data-testid="hero-headline">
           <Words text={HERO.titleStart} delay={0.25} />
           <RotatingWord />
           <Words text={HERO.titleEnd} delay={0.45} />
@@ -110,21 +110,21 @@ export const Hero = () => {
           )}
         </motion.p>
 
-        <motion.div className="mt-9 flex flex-wrap items-center gap-4" {...fade(0.65)}>
+        <motion.div className="mt-8 flex flex-col items-stretch gap-3 sm:mt-9 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4" {...fade(0.65)}>
           <Magnetic>
-            <a href="#contact" className="btn-primary group" data-testid="hero-primary-cta">
+            <a href="#contact" className="btn-primary group w-full sm:w-auto" data-testid="hero-primary-cta">
               {HERO.cta}
               <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true" />
             </a>
           </Magnetic>
           <Magnetic strength={0.2}>
-            <a href="#projects" className="btn-secondary" data-testid="hero-secondary-cta">
+            <a href="#projects" className="btn-secondary w-full sm:w-auto" data-testid="hero-secondary-cta">
               Виж проектите
             </a>
           </Magnetic>
         </motion.div>
 
-        <motion.div className="mt-9 flex flex-wrap gap-2" {...fade(0.75)} data-testid="hero-tags">
+        <motion.div className="mt-7 flex flex-wrap gap-2 sm:mt-9" {...fade(0.75)} data-testid="hero-tags">
           {HERO.tags.map((t) => <span key={t} className="chip">{t}</span>)}
         </motion.div>
       </motion.div>
