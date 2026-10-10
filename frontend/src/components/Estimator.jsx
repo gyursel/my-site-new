@@ -49,7 +49,7 @@ export const Estimator = () => {
   };
 
   return (
-    <section id="estimate" className="relative mx-auto max-w-6xl px-6 py-24 md:py-32" data-testid="estimator-section">
+    <section id="estimate" className="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-28" data-testid="estimator-section">
       <SectionDecor index="05" />
       <Reveal>
         <p className="eyebrow mb-5">// Бърза оценка</p>
@@ -61,9 +61,9 @@ export const Estimator = () => {
         </p>
       </Reveal>
 
-      <div className="mt-14 grid grid-cols-1 gap-6 lg:grid-cols-12">
+      <div className="mt-10 grid grid-cols-1 gap-4 sm:mt-12 sm:gap-6 lg:grid-cols-12">
         <Reveal variant="left" className="lg:col-span-7">
-          <div className="glass-panel space-y-8 p-6 md:p-8" data-testid="estimator-form">
+          <div className="glass-panel space-y-6 p-5 sm:space-y-8 sm:p-6 md:p-8" data-testid="estimator-form">
             <Step n={1} title="Тип проект">
               {PROJECT_TYPES.map((t) => (
                 <Option key={t.id} active={sel.type === t.id} onClick={() => set("type", t.id)} testid={`estimator-type-${t.id}`}>{t.label}</Option>
@@ -98,7 +98,7 @@ export const Estimator = () => {
         </Reveal>
 
         <Reveal variant="right" delay={0.1} className="lg:col-span-5">
-          <div className="glass-panel sticky top-28 overflow-hidden p-6 md:p-8" data-testid="estimator-result">
+          <div className="glass-panel overflow-hidden p-5 sm:p-6 md:p-8 lg:sticky lg:top-28" data-testid="estimator-result">
             <div className="hero-orb -right-16 -top-16 h-48 w-48 bg-[#8B3DFF]/30" aria-hidden="true" />
             <p className="eyebrow">// Ориентировъчна оценка</p>
 
@@ -108,7 +108,7 @@ export const Estimator = () => {
                 initial={{ scale: 0.7, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ type: "spring", stiffness: 300, damping: 18 }}
-                className="text-6xl font-extrabold leading-none text-glow md:text-7xl"
+                className="text-5xl font-extrabold leading-none text-glow sm:text-6xl md:text-7xl"
                 data-testid="estimator-scope-label"
               >
                 {est.scope.label}
@@ -119,7 +119,7 @@ export const Estimator = () => {
               </div>
             </div>
 
-            <div className="mt-8 grid grid-cols-2 gap-4">
+            <div className="mt-6 grid grid-cols-1 gap-3 sm:mt-8 sm:grid-cols-2 sm:gap-4">
               <div className="glass-card p-4">
                 <p className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.2em] text-white/45"><Clock className="h-3.5 w-3.5 text-[#C9A0FF]" /> Срок</p>
                 <p className="mt-2 text-2xl font-extrabold text-[#C9A0FF]" data-testid="estimator-weeks">
