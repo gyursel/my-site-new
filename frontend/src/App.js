@@ -10,6 +10,7 @@ import { LightStreams } from "@/components/LightStreams";
 import { Hero } from "@/components/Hero";
 import { TechTicker } from "@/components/TechTicker";
 import { AISolutions } from "@/components/AISolutions";
+import { CinematicAIShowcase } from "@/components/CinematicAIShowcase";
 import { Services } from "@/components/Services";
 import { Projects } from "@/components/Projects";
 import { About } from "@/components/About";
@@ -53,9 +54,12 @@ const Home = () => {
         <Hero />
         <TechTicker />
         <AISolutions />
+        <CinematicAIShowcase index={0} />
         <Services />
+        <CinematicAIShowcase index={1} />
         <Projects />
         <About />
+        <CinematicAIShowcase index={2} />
         <Estimator />
         <Contact />
       </main>
