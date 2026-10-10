@@ -25,15 +25,33 @@ import CaseStudy from "@/pages/CaseStudy";
 
 const useCardGlow = () => {
   useEffect(() => {
-    const onMove = (e) => {
+    const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
+    if (!finePointer.matches) return undefined;
+
+    let raf = 0;
+    let lastEvent = null;
+
+    const paint = () => {
+      raf = 0;
+      const e = lastEvent;
+      if (!e) return;
       const card = e.target.closest?.(".glass-card");
       if (!card) return;
-      const r = card.getBoundingClientRect();
-      card.style.setProperty("--mx", `${e.clientX - r.left - r.width / 2}px`);
-      card.style.setProperty("--my", `${e.clientY - r.top - r.height / 2}px`);
+      const rect = card.getBoundingClientRect();
+      card.style.setProperty("--mx", `${e.clientX - rect.left - rect.width / 2}px`);
+      card.style.setProperty("--my", `${e.clientY - rect.top - rect.height / 2}px`);
     };
+
+    const onMove = (e) => {
+      lastEvent = e;
+      if (!raf) raf = requestAnimationFrame(paint);
+    };
+
     document.addEventListener("pointermove", onMove, { passive: true });
-    return () => document.removeEventListener("pointermove", onMove);
+    return () => {
+      document.removeEventListener("pointermove", onMove);
+      if (raf) cancelAnimationFrame(raf);
+    };
   }, []);
 };
 
