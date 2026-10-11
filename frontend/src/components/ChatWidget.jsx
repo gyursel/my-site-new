@@ -75,6 +75,17 @@ export const ChatWidget = () => {
       { id: `u-${Date.now()}`, role: "user", content, attachments },
       { id: `a-${Date.now()}`, role: "assistant", content: "", provider, streaming: true },
     ]);
+    const showError = (message) => {
+      toast.error(message);
+      setMessages((m) => {
+        const copy = [...m];
+        const last = copy[copy.length - 1];
+        if (last?.role === "assistant" && !last.content) {
+          copy[copy.length - 1] = { ...last, content: message, streaming: false };
+        }
+        return copy;
+      });
+    };
     const append = (delta) =>
       setMessages((m) => {
         const copy = [...m];
@@ -90,7 +101,7 @@ export const ChatWidget = () => {
         provider,
         fileIds: attachments.map((a) => a.id),
         onDelta: append,
-        onError: (msg) => toast.error(msg),
+        onError: showError,
         onDone: (p) =>
           setMessages((m) => {
             const copy = [...m];
@@ -99,7 +110,7 @@ export const ChatWidget = () => {
           }),
       });
     } catch {
-      toast.error("Връзката с AI асистента се прекъсна.");
+      showError("Връзката с AI асистента се прекъсна.");
     } finally {
       setBusy(false);
       setMessages((m) => m.map((x) => ({ ...x, streaming: false })));
