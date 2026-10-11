@@ -37,6 +37,7 @@ export async function streamChat({ sessionId, sessionKey, message, provider, fil
   signal?.addEventListener("abort", forwardAbort, { once: true });
   let completed = false;
   let receivedText = false;
+  let serverError = false;
 
   try {
     const res = await fetch(`${API}/chat`, {
@@ -87,6 +88,7 @@ export async function streamChat({ sessionId, sessionKey, message, provider, fil
         onDelta?.(payload.delta);
       }
       if (payload.error) {
+        serverError = true;
         onError?.(payload.error);
       }
       if (payload.done) {
@@ -105,6 +107,7 @@ export async function streamChat({ sessionId, sessionKey, message, provider, fil
     }
     buffer += decoder.decode();
     if (buffer.trim()) processEvent(buffer);
+    if (serverError) return false;
     if (!completed && !receivedText) {
       onError?.("AI асистентът не върна отговор. Опитай отново.");
       return false;
