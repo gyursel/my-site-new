@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -54,7 +54,7 @@
 
     body {
         @apply bg-[#0D0920] text-white antialiased;
-        font-family: 'Manrope', sans-serif;
+        font-family: 'IBM Plex Sans', sans-serif;
         overflow-x: clip;
         background-image:
             radial-gradient(circle at 50% 12%, rgba(92, 55, 155, 0.28), transparent 36%),
@@ -63,7 +63,7 @@
     }
 
     h1, h2, h3, .font-display {
-        font-family: 'Manrope', sans-serif;
+        font-family: 'Exo 2', 'IBM Plex Sans', sans-serif;
         letter-spacing: -0.035em;
         font-weight: 800;
     }
@@ -298,7 +298,7 @@
     .nav-link:hover::after { transform: scaleX(1); }
 
     .eyebrow {
-        @apply font-mono text-[11px] font-medium uppercase tracking-[0.28em] text-[#B16CFF];
+        @apply font-mono text-[11px] font-medium uppercase tracking-[0.22em] text-[#B16CFF];
     }
 
     .meta-mono {
