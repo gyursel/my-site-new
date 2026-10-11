@@ -42,7 +42,7 @@ const RotatingWord = () => {
       <AnimatePresence mode="wait">
         <motion.span
           key={HERO.rotating[i]}
-          className="block bg-gradient-to-r from-[#C9A0FF] via-[#9A4DFF] to-[#00E5FF] bg-clip-text text-transparent"
+          className={`block bg-gradient-to-r from-[#C9A0FF] via-[#9A4DFF] to-[#00E5FF] bg-clip-text text-transparent ${HERO.rotating[i] === "автоматизации" ? "lg:text-[0.84em] xl:text-[0.9em]" : ""}`}
           initial={{ y: "100%", opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: "-100%", opacity: 0 }}
