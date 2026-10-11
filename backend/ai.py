@@ -39,6 +39,8 @@ SYSTEM_MESSAGE = """Ти си AI асистентът на уебсайта на
 
 
 MAX_PDF_CHARS = 15000
+MAX_PDF_PAGES = 25
+MAX_IMAGE_PIXELS = 25_000_000
 
 _CHATS = {}
 
@@ -66,6 +68,9 @@ def drop_chat(session_id: str, provider: str):
 def image_to_base64(data: bytes) -> str:
     img = Image.open(io.BytesIO(data))
 
+    if img.width * img.height > MAX_IMAGE_PIXELS:
+        raise ValueError("Изображението е прекалено голямо за обработка")
+
     if getattr(img, "is_animated", False):
         img.seek(0)
 
@@ -81,7 +86,8 @@ def image_to_base64(data: bytes) -> str:
 def extract_text(data: bytes, content_type: str, filename: str) -> str:
     if content_type == "application/pdf" or filename.lower().endswith(".pdf"):
         reader = PdfReader(io.BytesIO(data))
-        text = "\n".join((page.extract_text() or "") for page in reader.pages)
+        pages = reader.pages[:MAX_PDF_PAGES]
+        text = "\n".join((page.extract_text() or "") for page in pages)
     else:
         text = data.decode("utf-8", errors="ignore")
 
