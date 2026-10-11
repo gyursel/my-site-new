@@ -9,7 +9,7 @@ const ICONS = { MessageSquareText, Workflow, FileText, ScanEye, Smartphone };
 export const AISolutions = () => {
   const { openWithPrompt } = useChat();
   return (
-    <section id="ai" className="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-28" data-testid="ai-section">
+    <section id="ai" className="relative mx-auto max-w-6xl xl:max-w-[1280px] px-4 py-16 sm:px-6 md:py-28" data-testid="ai-section">
       <SectionDecor index="01" />
       <Reveal>
         <p className="eyebrow mb-5">{AI_SECTION.eyebrow}</p>
@@ -21,7 +21,7 @@ export const AISolutions = () => {
         <p className="mt-6 max-w-xl text-base leading-relaxed text-white/65 md:text-lg">{AI_SECTION.lead}</p>
       </Reveal>
 
-      <div className="mt-10 grid grid-cols-1 gap-4 sm:mt-12 md:grid-cols-6 md:gap-5">
+      <div className="mt-10 grid grid-cols-1 gap-4 sm:mt-12 md:grid-cols-6 md:gap-5 xl:gap-6">
         {AI_SOLUTIONS.map((s, i) => {
           const Icon = ICONS[s.icon];
           return (
