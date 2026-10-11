@@ -17,7 +17,7 @@ const SUGGESTIONS = [
 ];
 
 export const ChatWidget = () => {
-  const { open, setOpen, draft, setDraft, sessionId, resetSession } = useChat();
+  const { open, setOpen, draft, setDraft, sessionId, sessionKey, resetSession } = useChat();
   const [provider, setProvider] = useState("anthropic");
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
@@ -28,8 +28,10 @@ export const ChatWidget = () => {
   const fileRef = useRef(null);
 
   useEffect(() => {
-    api.get(`/chat/${sessionId}/messages`).then((r) => setMessages(r.data)).catch(() => {});
-  }, [sessionId]);
+    api.get(`/chat/${sessionId}/messages`, { headers: { "X-Chat-Key": sessionKey } })
+      .then((r) => setMessages(r.data))
+      .catch(() => setMessages([]));
+  }, [sessionId, sessionKey]);
 
   useEffect(() => {
     if (draft) {
@@ -50,7 +52,9 @@ export const ChatWidget = () => {
     try {
       const form = new FormData();
       form.append("file", file);
-      const { data } = await api.post(`/files/upload?session_id=${sessionId}`, form);
+      const { data } = await api.post(`/files/upload?session_id=${sessionId}`, form, {
+        headers: { "X-Chat-Key": sessionKey },
+      });
       setFiles((f) => [...f, data]);
     } catch (err) {
       toast.error(formatApiError(err, "Файлът не беше качен."));
@@ -81,6 +85,7 @@ export const ChatWidget = () => {
     try {
       await streamChat({
         sessionId,
+        sessionKey,
         message: content,
         provider,
         fileIds: attachments.map((a) => a.id),
@@ -102,7 +107,7 @@ export const ChatWidget = () => {
   };
 
   const clear = async () => {
-    await api.delete(`/chat/${sessionId}`).catch(() => {});
+    await api.delete(`/chat/${sessionId}`, { headers: { "X-Chat-Key": sessionKey } }).catch(() => {});
     setMessages([]);
     resetSession();
   };
