@@ -4,6 +4,12 @@ import { IMAGES, PROJECTS, PROJECTS_SECTION } from "../data/content";
 import { Reveal, SplitWords } from "./Reveal";
 import { SectionDecor } from "./SectionDecor";
 
+const IMAGE_TINTS = [
+  "from-[#00E5FF]/24 via-[#4D7CFF]/8 to-[#8B3DFF]/22",
+  "from-[#8B3DFF]/24 via-transparent to-[#00E5FF]/22",
+  "from-[#00B8FF]/20 via-[#8B3DFF]/8 to-[#D75CFF]/22",
+];
+
 export const Projects = () => (
   <section id="projects" className="relative mx-auto max-w-6xl xl:max-w-[1280px] px-4 py-16 sm:px-6 md:py-28" data-testid="projects-section">
     <SectionDecor index="03" />
@@ -36,8 +42,10 @@ export const Projects = () => (
                       alt={p.title}
                       loading="lazy"
                       decoding="async"
-                      className="aspect-[16/9] w-full object-cover saturate-[1.30] contrast-[1.10] brightness-[1.08] transition-[transform,filter] duration-500 group-hover:scale-[1.035] group-hover:saturate-[1.40] group-hover:brightness-[1.12]"
+                      className="aspect-[16/9] w-full object-cover saturate-[1.36] contrast-[1.12] brightness-[1.07] transition-[transform,filter] duration-500 group-hover:scale-[1.035] group-hover:saturate-[1.5] group-hover:contrast-[1.16] group-hover:brightness-[1.11]"
                     />
+                    <div className={`pointer-events-none absolute inset-x-3 bottom-3 top-10 bg-gradient-to-br ${IMAGE_TINTS[i % IMAGE_TINTS.length]} mix-blend-screen opacity-65 transition-opacity duration-500 group-hover:opacity-88`} />
+                    <div className="pointer-events-none absolute inset-x-3 bottom-3 top-10 bg-gradient-to-t from-[#090512]/55 via-transparent to-[#00E5FF]/[0.03]" />
                   </div>
                   <span className="absolute right-6 top-6 inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-black/55 text-white backdrop-blur-sm transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" aria-hidden="true">
                     <ArrowUpRight className="h-4 w-4" />
