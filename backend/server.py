@@ -285,7 +285,8 @@ async def download_file(file_id: str, user: dict = Depends(get_admin_user)):
     if not rec:
         raise HTTPException(status_code=404, detail="Файлът не е намерен")
     data, ctype = await asyncio.to_thread(storage.get_object, rec["storage_path"])
-    headers = {"Content-Disposition": f'inline; filename="{rec["original_filename"]}"'}
+    safe_name = (rec["original_filename"] or "download").replace("\r", "").replace("\n", "").replace('"', "")[:180]
+    headers = {"Content-Disposition": f'attachment; filename="{safe_name}"'}
     return Response(content=data, media_type=rec.get("content_type", ctype), headers=headers)
 
 
@@ -401,7 +402,12 @@ async def chat(input: ChatInput, request: Request):
         data, _ = await asyncio.to_thread(storage.get_object, rec["storage_path"])
         files.append({"data": data, "content_type": rec["content_type"], "filename": rec["original_filename"]})
 
-    extra_text, images = await asyncio.to_thread(ai.prepare_attachments, files)
+    try:
+        extra_text, images = await asyncio.to_thread(ai.prepare_attachments, files)
+    except Exception as e:
+        logger.warning(f"Attachment processing rejected: {e}")
+        raise HTTPException(status_code=400, detail="Прикаченият файл не може да бъде обработен")
+
     attachments = [{"id": f, "name": n["filename"]} for f, n in zip(input.file_ids, files)]
     now = datetime.now(timezone.utc).isoformat()
     await db.chat_messages.insert_one({
