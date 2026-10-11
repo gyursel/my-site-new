@@ -44,6 +44,25 @@ export const ChatWidget = () => {
     if (listRef.current) listRef.current.scrollTop = listRef.current.scrollHeight;
   }, [messages, open]);
 
+  // Intercept wheel events on the entire floating chat so page-level smooth-scroll
+  // handlers (Lenis) cannot move the background while reading the conversation.
+  useEffect(() => {
+    if (!open) return undefined;
+    const panel = document.querySelector('[data-testid="chat-panel"]');
+    if (!panel) return undefined;
+    const onWheel = (event) => {
+      const scroller = listRef.current;
+      if (!scroller || !panel.contains(event.target)) return;
+      const target = event.target;
+      if (target.closest?.("textarea, input, select")) return;
+      event.preventDefault();
+      const factor = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? scroller.clientHeight : 1;
+      scroller.scrollTop += event.deltaY * factor;
+    };
+    panel.addEventListener("wheel", onWheel, { passive: false });
+    return () => panel.removeEventListener("wheel", onWheel);
+  }, [open]);
+
   const onPickFile = async (e) => {
     const file = e.target.files?.[0];
     e.target.value = "";
@@ -173,7 +192,7 @@ export const ChatWidget = () => {
               </div>
             </div>
 
-            <div ref={listRef} className="flex-1 space-y-3 overflow-y-auto overscroll-contain px-3 py-3 sm:px-4 sm:py-4" data-testid="chat-messages">
+            <div ref={listRef} className="min-h-0 flex-1 space-y-3 overflow-y-auto overscroll-contain px-3 py-3 sm:px-4 sm:py-4" data-testid="chat-messages">
               {messages.length === 0 && (
                 <div className="space-y-3" data-testid="chat-empty-state">
                   <div className="chat-bubble-ai">
