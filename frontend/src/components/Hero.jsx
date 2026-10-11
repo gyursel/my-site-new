@@ -55,14 +55,14 @@ const RotatingWord = () => {
   );
 };
 
-const FloatingCapability = ({ icon: Icon, title, meta, className = "" }) => (
-  <div className={`absolute z-20 hidden items-center gap-3 rounded-2xl border border-white/15 bg-[#120a28]/90 px-4 py-3 shadow-[0_14px_40px_rgba(0,0,0,0.35)] backdrop-blur-md sm:flex ${className}`}>
-    <span className="flex h-9 w-9 items-center justify-center rounded-xl border border-[#B16CFF]/40 bg-[#8B3DFF]/20 text-[#C9A0FF]">
-      <Icon className="h-4 w-4" aria-hidden="true" />
+const FloatingCapability = ({ icon: Icon, title, meta }) => (
+  <div className="flex min-w-0 items-center gap-2 rounded-xl border border-white/10 bg-[#120a28]/65 px-3 py-2.5 shadow-[0_10px_30px_rgba(0,0,0,0.22)] backdrop-blur-sm">
+    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-[#B16CFF]/35 bg-[#8B3DFF]/15 text-[#C9A0FF]">
+      <Icon className="h-3.5 w-3.5" aria-hidden="true" />
     </span>
-    <span>
-      <span className="block text-xs font-bold text-white">{title}</span>
-      <span className="mt-0.5 block font-mono text-[9px] uppercase tracking-[0.16em] text-[#00E5FF]/80">{meta}</span>
+    <span className="min-w-0">
+      <span className="block truncate text-[11px] font-bold text-white">{title}</span>
+      <span className="mt-0.5 block truncate font-mono text-[8px] uppercase tracking-[0.12em] text-[#00E5FF]/75">{meta}</span>
     </span>
   </div>
 );
@@ -162,9 +162,11 @@ export const Hero = () => {
             </div>
           </div>
 
-          <FloatingCapability icon={Bot} title="AI асистенти" meta="24/7 automation" className="-left-8 top-12" />
-          <FloatingCapability icon={Workflow} title="AI агенти" meta="smart workflows" className="-right-8 top-[34%]" />
-          <FloatingCapability icon={Smartphone} title="Mobile AI" meta="android · ios" className="bottom-20 -left-5" />
+          <div className="mt-3 hidden grid-cols-3 gap-2 lg:grid" aria-label="AI възможности">
+            <FloatingCapability icon={Bot} title="AI асистенти" meta="24/7 automation" />
+            <FloatingCapability icon={Workflow} title="AI агенти" meta="smart workflows" />
+            <FloatingCapability icon={Smartphone} title="Mobile AI" meta="android · ios" />
+          </div>
         </div>
       </motion.div>
 
