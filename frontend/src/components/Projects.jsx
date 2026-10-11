@@ -36,7 +36,7 @@ export const Projects = () => (
                       alt={p.title}
                       loading="lazy"
                       decoding="async"
-                      className="aspect-[16/9] w-full object-cover saturate-[1.18] contrast-[1.06] transition-transform duration-500 group-hover:scale-[1.035]"
+                      className="aspect-[16/9] w-full object-cover saturate-[1.30] contrast-[1.10] brightness-[1.08] transition-[transform,filter] duration-500 group-hover:scale-[1.035] group-hover:saturate-[1.40] group-hover:brightness-[1.12]"
                     />
                   </div>
                   <span className="absolute right-6 top-6 inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-black/55 text-white backdrop-blur-sm transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" aria-hidden="true">
