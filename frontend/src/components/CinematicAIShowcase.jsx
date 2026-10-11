@@ -25,7 +25,7 @@ export const CinematicAIShowcase = ({ index = 0 }) => {
   const item = VISUALS[index % VISUALS.length];
 
   return (
-    <section className="mx-auto max-w-6xl px-4 py-3 sm:px-6 sm:py-6 md:py-10" aria-label={item.title}>
+    <section className="mx-auto max-w-6xl xl:max-w-[1280px] px-4 py-3 sm:px-6 sm:py-6 md:py-10" aria-label={item.title}>
       <Reveal variant={item.align === "right" ? "right" : "left"}>
         <div className="group relative overflow-hidden rounded-[20px] sm:rounded-[28px] border border-[#B16CFF]/30 shadow-[0_24px_80px_rgba(67,24,120,0.28)]">
           <img
@@ -35,7 +35,7 @@ export const CinematicAIShowcase = ({ index = 0 }) => {
             alt={item.title}
             loading="lazy"
             decoding="async"
-            className="h-[220px] w-full object-cover sm:h-[280px] saturate-[1.28] contrast-[1.08] brightness-[1.1] md:h-[390px]"
+            className="h-[220px] w-full object-cover sm:h-[280px] saturate-[1.28] contrast-[1.08] brightness-[1.1] md:h-[390px] xl:h-[430px]"
           />
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#090513]/90 via-[#120826]/35 to-transparent" />
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#090513]/75 via-transparent to-transparent" />
