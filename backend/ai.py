@@ -334,8 +334,10 @@ async def _stream_anthropic(chat, text, images):
     }
 
     timeout = httpx.Timeout(
-        120.0,
-        connect=20.0,
+        connect=12.0,
+        read=45.0,
+        write=15.0,
+        pool=10.0,
     )
 
     async with httpx.AsyncClient(timeout=timeout) as client:
@@ -368,6 +370,12 @@ async def _stream_anthropic(chat, text, images):
                     event = json.loads(raw)
                 except json.JSONDecodeError:
                     continue
+
+                if event.get("type") == "error":
+                    error_info = event.get("error") or {}
+                    raise RuntimeError(
+                        "Anthropic stream error: " + str(error_info.get("type", "unknown"))
+                    )
 
                 if event.get("type") != "content_block_delta":
                     continue
