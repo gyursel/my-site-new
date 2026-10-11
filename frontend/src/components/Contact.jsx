@@ -41,7 +41,7 @@ export const Contact = () => {
   };
 
   return (
-    <section id="contact" className="relative mx-auto max-w-5xl px-4 py-16 sm:px-6 md:py-28" data-testid="contact-section">
+    <section id="contact" className="relative mx-auto max-w-5xl xl:max-w-[1120px] px-4 py-16 sm:px-6 md:py-28" data-testid="contact-section">
       <SectionDecor index="06" />
       <Reveal>
         <p className="eyebrow mb-5">{CONTACT.eyebrow}</p>
