@@ -28,7 +28,7 @@ export const Services = () => (
                   alt={s.title}
                   loading="lazy"
                   decoding="async"
-                  className="aspect-[16/9] w-full object-cover saturate-[1.2] contrast-[1.07] brightness-[1.08] transition-transform duration-700 group-hover:scale-[1.05]"
+                  className="aspect-[16/9] w-full object-cover saturate-[1.30] contrast-[1.10] brightness-[1.10] transition-[transform,filter] duration-700 group-hover:scale-[1.05] group-hover:saturate-[1.40] group-hover:brightness-[1.14]"
                 />
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#120927]/80 via-transparent to-transparent" />
                 <div className="icon-tile absolute bottom-4 left-4 !mb-0 backdrop-blur-md">
