@@ -5,6 +5,15 @@ import { SectionDecor } from "./SectionDecor";
 
 const ICONS = { Smartphone, Globe, Bot, Database, Rocket, Compass };
 
+const IMAGE_TINTS = [
+  "from-[#00E5FF]/26 via-[#4D7CFF]/8 to-[#8B3DFF]/24",
+  "from-[#8B3DFF]/26 via-[#00E5FF]/8 to-[#B16CFF]/22",
+  "from-[#00B8FF]/24 via-transparent to-[#D75CFF]/24",
+  "from-[#B16CFF]/24 via-[#2457FF]/8 to-[#00E5FF]/24",
+  "from-[#00E5FF]/24 via-[#8B3DFF]/10 to-[#FF5FD2]/18",
+  "from-[#7B5CFF]/24 via-[#00E5FF]/8 to-[#B16CFF]/22",
+];
+
 export const Services = () => (
   <section id="services" className="relative mx-auto max-w-6xl xl:max-w-[1280px] px-4 py-16 sm:px-6 md:py-28" data-testid="services-section">
     <SectionDecor index="02" />
@@ -28,9 +37,10 @@ export const Services = () => (
                   alt={s.title}
                   loading="lazy"
                   decoding="async"
-                  className="aspect-[16/9] w-full object-cover saturate-[1.30] contrast-[1.10] brightness-[1.10] transition-[transform,filter] duration-700 group-hover:scale-[1.05] group-hover:saturate-[1.40] group-hover:brightness-[1.14]"
+                  className="aspect-[16/9] w-full object-cover saturate-[1.38] contrast-[1.12] brightness-[1.08] transition-[transform,filter] duration-700 group-hover:scale-[1.05] group-hover:saturate-[1.52] group-hover:contrast-[1.16] group-hover:brightness-[1.12]"
                 />
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#120927]/80 via-transparent to-transparent" />
+                <div className={`pointer-events-none absolute inset-0 bg-gradient-to-br ${IMAGE_TINTS[i % IMAGE_TINTS.length]} mix-blend-screen opacity-70 transition-opacity duration-500 group-hover:opacity-90`} />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0B0617]/88 via-transparent to-[#00E5FF]/[0.04]" />
                 <div className="icon-tile absolute bottom-4 left-4 !mb-0 backdrop-blur-md">
                   <Icon className="h-5 w-5" aria-hidden="true" />
                 </div>
