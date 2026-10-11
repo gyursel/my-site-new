@@ -5,7 +5,7 @@ import { LogoMark } from "./LogoMark";
 
 export const Footer = () => (
   <footer className="border-t border-white/5 px-4 py-8 sm:px-6 sm:py-10" data-testid="footer">
-    <div className="mx-auto max-w-6xl">
+    <div className="mx-auto max-w-6xl xl:max-w-[1280px]">
       <div className="flex flex-col items-start justify-between gap-5 sm:flex-row sm:items-center sm:gap-6">
         <div className="flex items-center gap-3">
           <LogoMark className="h-8 w-8" />
