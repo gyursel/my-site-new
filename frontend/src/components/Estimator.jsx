@@ -49,7 +49,7 @@ export const Estimator = () => {
   };
 
   return (
-    <section id="estimate" className="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-28" data-testid="estimator-section">
+    <section id="estimate" className="relative mx-auto max-w-6xl xl:max-w-[1280px] px-4 py-16 sm:px-6 md:py-28" data-testid="estimator-section">
       <SectionDecor index="05" />
       <Reveal>
         <p className="eyebrow mb-5">// Бърза оценка</p>
@@ -61,7 +61,7 @@ export const Estimator = () => {
         </p>
       </Reveal>
 
-      <div className="mt-10 grid grid-cols-1 gap-4 sm:mt-12 sm:gap-6 lg:grid-cols-12">
+      <div className="mt-10 grid grid-cols-1 gap-4 sm:mt-12 sm:gap-6 lg:grid-cols-12 lg:gap-8 xl:gap-10">
         <Reveal variant="left" className="lg:col-span-7">
           <div className="glass-panel space-y-6 p-5 sm:space-y-8 sm:p-6 md:p-8" data-testid="estimator-form">
             <Step n={1} title="Тип проект">
