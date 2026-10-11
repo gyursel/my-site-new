@@ -38,11 +38,11 @@ const RotatingWord = () => {
   }, []);
 
   return (
-    <span className="relative block h-[1.15em] overflow-hidden" data-testid="hero-rotating-word">
+    <span className="relative block h-[1.15em] w-full max-w-full overflow-hidden" data-testid="hero-rotating-word">
       <AnimatePresence mode="wait">
         <motion.span
           key={HERO.rotating[i]}
-          className={`block bg-gradient-to-r from-[#C9A0FF] via-[#9A4DFF] to-[#00E5FF] bg-clip-text text-transparent ${HERO.rotating[i] === "автоматизации" ? "lg:text-[0.84em] xl:text-[0.9em]" : ""}`}
+          className={`block max-w-full whitespace-nowrap bg-gradient-to-r from-[#C9A0FF] via-[#9A4DFF] to-[#00E5FF] bg-clip-text text-transparent ${HERO.rotating[i] === "автоматизации" ? "text-[0.88em] sm:text-[0.82em] lg:text-[0.72em] xl:text-[0.82em] 2xl:text-[0.9em]" : ""}`}
           initial={{ y: "100%", opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: "-100%", opacity: 0 }}
@@ -78,13 +78,13 @@ export const Hero = () => {
     <section
       id="intro"
       ref={ref}
-      className="relative mx-auto grid min-h-[100svh] max-w-6xl xl:max-w-[1280px] grid-cols-1 items-center gap-10 px-4 pb-14 pt-28 sm:px-6 sm:pb-20 sm:pt-32 lg:min-h-screen lg:grid-cols-12 lg:gap-16 lg:pt-28 xl:gap-20"
+      className="relative mx-auto grid min-h-[100svh] max-w-6xl xl:max-w-[1280px] grid-cols-1 items-center gap-10 px-4 pb-14 pt-28 sm:px-6 sm:pb-20 sm:pt-32 lg:min-h-screen lg:grid-cols-12 lg:gap-10 lg:pt-28 xl:gap-16"
       data-testid="hero-section"
     >
       <div className="hero-orb left-[-10%] top-[20%] h-72 w-72 bg-[#8B3DFF]/25" aria-hidden="true" />
       <div className="hero-orb right-[5%] top-[60%] h-56 w-56 bg-[#00E5FF]/15 [animation-delay:-6s]" aria-hidden="true" />
 
-      <motion.div className="lg:col-span-6 lg:pr-2" style={{ y: textY, opacity }}>
+      <motion.div className="min-w-0 lg:col-span-6 lg:pr-2" style={{ y: textY, opacity }}>
         <motion.span
           className="inline-flex items-center gap-2 rounded-full border border-[#B16CFF]/40 bg-[#8B3DFF]/15 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.22em] text-[#D9C2FF]"
           {...fade(0.05)}
@@ -98,7 +98,7 @@ export const Hero = () => {
           {HERO.name}
         </motion.p>
 
-        <h1 className="mt-3 text-[2.65rem] font-extrabold leading-[1.02] sm:text-6xl lg:text-7xl" data-testid="hero-headline">
+        <h1 className="mt-3 max-w-full text-[clamp(2.45rem,9vw,3.75rem)] font-extrabold leading-[1.02] lg:text-[clamp(3.35rem,5.2vw,4.25rem)] xl:text-[4.5rem]" data-testid="hero-headline">
           <Words text={HERO.titleStart} delay={0.25} />
           <RotatingWord />
           <Words text={HERO.titleEnd} delay={0.45} />
@@ -130,7 +130,7 @@ export const Hero = () => {
       </motion.div>
 
       <motion.div
-        className="lg:col-span-6 lg:pl-4"
+        className="min-w-0 lg:col-span-6 lg:pl-2 xl:pl-4"
         style={{ y }}
         initial={{ opacity: 0, scale: 0.94 }}
         animate={{ opacity: 1, scale: 1 }}
