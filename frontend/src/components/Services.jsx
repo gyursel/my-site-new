@@ -6,7 +6,7 @@ import { SectionDecor } from "./SectionDecor";
 const ICONS = { Smartphone, Globe, Bot, Database, Rocket, Compass };
 
 export const Services = () => (
-  <section id="services" className="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-28" data-testid="services-section">
+  <section id="services" className="relative mx-auto max-w-6xl xl:max-w-[1280px] px-4 py-16 sm:px-6 md:py-28" data-testid="services-section">
     <SectionDecor index="02" />
     <Reveal>
       <p className="eyebrow mb-5">{SERVICES_SECTION.eyebrow}</p>
@@ -16,7 +16,7 @@ export const Services = () => (
       <p className="mt-6 max-w-xl text-base leading-relaxed text-white/65 md:text-lg">{SERVICES_SECTION.lead}</p>
     </Reveal>
 
-    <div className="mt-10 grid grid-cols-1 gap-4 sm:mt-12 md:grid-cols-2 md:gap-5 lg:grid-cols-3">
+    <div className="mt-10 grid grid-cols-1 gap-4 sm:mt-12 md:grid-cols-2 md:gap-5 lg:grid-cols-3 xl:gap-6">
       {SERVICES.map((s, i) => {
         const Icon = ICONS[s.icon];
         return (
