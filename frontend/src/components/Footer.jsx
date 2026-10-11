@@ -1,5 +1,4 @@
-import { Link } from "react-router-dom";
-import { ArrowUp, Lock } from "lucide-react";
+import { ArrowUp } from "lucide-react";
 import { BRAND, TECH_ITEMS } from "../data/content";
 import { LogoMark } from "./LogoMark";
 
@@ -13,9 +12,6 @@ export const Footer = () => (
         </div>
         <p className="text-sm text-white/40">© {new Date().getFullYear()} {BRAND}. Всички права запазени.</p>
         <div className="flex items-center gap-5">
-          <Link to="/admin" className="inline-flex items-center gap-1.5 text-xs text-white/35 transition-[color,transform] duration-300 hover:-translate-y-0.5 hover:text-[#C9A0FF]" data-testid="footer-admin-link">
-            <Lock className="h-3 w-3" aria-hidden="true" /> Админ
-          </Link>
           <a
             href="/#intro"
             className="group inline-flex items-center gap-2 text-sm font-medium text-white/60 transition-colors duration-300 hover:text-[#C9A0FF]"
