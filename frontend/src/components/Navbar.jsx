@@ -62,7 +62,7 @@ export const Navbar = () => {
             <span className="text-sm font-bold tracking-wide">{BRAND}</span>
           </Link>
 
-          <div className="hidden items-center gap-6 lg:gap-8 md:flex">
+          <div className="hidden items-center gap-5 xl:gap-8 lg:flex">
             {NAV_LINKS.map((l) => (
               <NavAnchor
                 key={l.id}
@@ -76,7 +76,7 @@ export const Navbar = () => {
             ))}
           </div>
 
-          <div className="hidden items-center gap-2 md:flex">
+          <div className="hidden items-center gap-2 lg:flex">
             <button type="button" className="btn-ghost" onClick={() => openWithPrompt("")} data-testid="nav-ask-ai">
               <Sparkles className="h-4 w-4 text-[#C9A0FF]" aria-hidden="true" />
               Питай AI
@@ -89,7 +89,7 @@ export const Navbar = () => {
           </div>
 
           <button
-            className="icon-btn md:hidden"
+            className="icon-btn lg:hidden"
             onClick={() => setOpen((o) => !o)}
             aria-label={open ? "Затвори менюто" : "Отвори менюто"}
             aria-expanded={open}
@@ -107,7 +107,7 @@ export const Navbar = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -12, scale: 0.98 }}
             transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-            className="glass-panel mx-3 mt-2 flex max-h-[calc(100svh-5rem)] flex-col gap-1 overflow-y-auto p-3 md:hidden"
+            className="glass-panel mx-3 mt-2 flex max-h-[calc(100svh-5rem)] flex-col gap-1 overflow-y-auto p-3 lg:hidden"
             data-testid="nav-mobile-menu"
           >
             {NAV_LINKS.map((l, i) => (
