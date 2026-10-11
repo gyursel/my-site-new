@@ -240,7 +240,7 @@ export const CONTACT = {
   eyebrow: "// Контакти",
   title: "Обсъдете проекта си",
   lead: "Разкажете ми за идеята си и ще се свържа с вас в рамките на един работен ден.",
-  email: "peter200419@gmail.com",
+  email: "gyurselAI@gmail.com",
   phone: "0876632764",
   location: "гр. Варна",
 };
