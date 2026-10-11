@@ -3,9 +3,9 @@ export const BRAND = "Гюрсел Исмаилов";
 export const IMAGES = {
   portrait: "/portrait.webp",
   projects: [
-    "https://images.unsplash.com/photo-1689443111130-6e9c7dfd8f9e?auto=format&fit=crop&w=2000&q=92",
-    "https://images.unsplash.com/photo-1620207418302-439b387441b0?auto=format&fit=crop&w=2000&q=92",
-    "https://images.unsplash.com/photo-1651870364199-fc5f9f46ac85?auto=format&fit=crop&w=2000&q=92",
+    "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=2000&q=95",
+    "https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&w=2000&q=95",
+    "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=2000&q=95",
   ],
 };
 
@@ -56,7 +56,7 @@ export const AI_SECTION = {
 export const AI_SOLUTIONS = [
   {
     icon: "MessageSquareText",
-    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1600&q=92",
+    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1600&q=95",
     title: "AI чатботове и асистенти",
     text: "Асистент, който познава вашия бизнес: отговаря на клиенти 24/7 на базата на вашите документи, цени и често задавани въпроси (RAG).",
     meta: "Поддръжка, продажби, вътрешен помощник за екипа",
@@ -65,7 +65,7 @@ export const AI_SOLUTIONS = [
   },
   {
     icon: "Workflow",
-    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1600&q=92",
+    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1600&q=95",
     title: "AI агенти и автоматизации",
     text: "Агенти, които сами извършват рутинна работа: подготвят оферти, сортират имейли, попълват данни и свързват вашите системи.",
     meta: "Спестени часове ръчна работа всяка седмица",
@@ -74,7 +74,7 @@ export const AI_SOLUTIONS = [
   },
   {
     icon: "FileText",
-    image: "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?auto=format&fit=crop&w=1600&q=92",
+    image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=1600&q=95",
     title: "Анализ на документи",
     text: "Извличане на данни от фактури, договори и PDF файлове, резюмета и търсене на отговори директно в документите.",
     meta: "Фактури, договори, отчети",
@@ -82,7 +82,7 @@ export const AI_SOLUTIONS = [
   },
   {
     icon: "ScanEye",
-    image: "https://images.unsplash.com/photo-1535223289827-42f1e9919769?auto=format&fit=crop&w=1600&q=92",
+    image: "https://images.unsplash.com/photo-1535223289827-42f1e9919769?auto=format&fit=crop&w=1600&q=95",
     title: "Компютърно зрение",
     text: "Разпознаване на обекти, текст и продукти през камерата на телефона — директно в мобилното приложение.",
     meta: "Сканиране, инвентар, контрол на качеството",
@@ -90,7 +90,7 @@ export const AI_SOLUTIONS = [
   },
   {
     icon: "Smartphone",
-    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1600&q=92",
+    image: "https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&w=1600&q=95",
     title: "AI в мобилни приложения",
     text: "Умни функции в Android и iOS приложения: персонализация, гласови команди, препоръки и генеративно съдържание.",
     meta: "Android · iOS",
@@ -107,7 +107,7 @@ export const SERVICES_SECTION = {
 export const SERVICES = [
   {
     icon: "Smartphone",
-    image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=1600&q=92",
+    image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=1600&q=95",
     title: "Мобилни приложения",
     text: "Нативни Android (Kotlin, Jetpack Compose) и iOS (Swift, SwiftUI) приложения с публикуване в Play Store и App Store.",
     meta: "Kotlin · Swift · Compose · SwiftUI",
@@ -121,28 +121,28 @@ export const SERVICES = [
   },
   {
     icon: "Bot",
-    image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=1600&q=92",
+    image: "https://images.unsplash.com/photo-1674027444485-cec3da58eef4?auto=format&fit=crop&w=1600&q=95",
     title: "AI интеграции",
     text: "Вграждане на OpenAI, Claude и Gemini в съществуващи продукти — чат, анализ, генериране на съдържание.",
     meta: "OpenAI · Claude · Gemini",
   },
   {
     icon: "Database",
-    image: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=1600&q=92",
+    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1600&q=95",
     title: "RAG и работа с данни",
     text: "Търсене и отговори върху вашите документи, векторни бази и интеграция с вътрешни системи.",
     meta: "Embeddings · Векторни бази · API",
   },
   {
     icon: "Rocket",
-    image: "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1600&q=92",
+    image: "https://images.unsplash.com/photo-1516849841032-87cbac4d88f7?auto=format&fit=crop&w=1600&q=95",
     title: "Публикуване и поддръжка",
     text: "Подготовка за магазините, CI/CD, мониторинг и развитие на продукта след старта.",
     meta: "Play Store · App Store · DevOps",
   },
   {
     icon: "Compass",
-    image: "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=1600&q=92",
+    image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1600&q=95",
     title: "Консултация и стратегия",
     text: "Оценка къде AI носи реална стойност за бизнеса ви, план за внедряване и прототип за седмици.",
     meta: "Анализ · Прототип · План",
