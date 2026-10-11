@@ -1,50 +1,41 @@
-import { createContext, useCallback, useContext, useMemo, useState } from "react";
+import { createContext, useCallback, useContext, useState } from "react";
 
 const ChatContext = createContext(null);
 
-const SESSION_KEY = "gi-chat-session";
-const SESSION_SECRET_KEY = "gi-chat-secret";
-
-const getSession = () => {
-  let id = localStorage.getItem(SESSION_KEY);
-  let key = localStorage.getItem(SESSION_SECRET_KEY);
-
-  if (!id) {
-    id = `s-${crypto.randomUUID()}`;
-    localStorage.setItem(SESSION_KEY, id);
-  }
-
-  if (!key) {
-    key = `${crypto.randomUUID()}${crypto.randomUUID()}`;
-    localStorage.setItem(SESSION_SECRET_KEY, key);
-  }
-
-  return { id, key };
-};
+// Sessions live only in memory. Each new chat opening gets fresh credentials.
+const getSession = () => ({
+  id: `s-${crypto.randomUUID()}`,
+  key: `${crypto.randomUUID()}${crypto.randomUUID()}`,
+});
 
 export const ChatProvider = ({ children }) => {
-  const initialSession = useMemo(() => getSession(), []);
+  const [initialSession] = useState(getSession);
   const [open, setOpen] = useState(false);
   const [draft, setDraft] = useState("");
   const [sessionId, setSessionId] = useState(initialSession.id);
   const [sessionKey, setSessionKey] = useState(initialSession.key);
 
-  const openWithPrompt = useCallback((prompt = "") => {
-    setDraft(prompt);
-    setOpen(true);
-  }, []);
-
   const resetSession = useCallback(() => {
-    localStorage.removeItem(SESSION_KEY);
-    localStorage.removeItem(SESSION_SECRET_KEY);
     const next = getSession();
     setSessionId(next.id);
     setSessionKey(next.key);
   }, []);
 
+  const openChat = useCallback(() => {
+    resetSession();
+    setDraft("");
+    setOpen(true);
+  }, [resetSession]);
+
+  const openWithPrompt = useCallback((prompt = "") => {
+    resetSession();
+    setDraft(prompt);
+    setOpen(true);
+  }, [resetSession]);
+
   const value = useMemo(
-    () => ({ open, setOpen, draft, setDraft, openWithPrompt, sessionId, sessionKey, resetSession }),
-    [open, draft, openWithPrompt, sessionId, sessionKey, resetSession],
+    () => ({ open, setOpen, openChat, draft, setDraft, openWithPrompt, sessionId, sessionKey, resetSession }),
+    [open, openChat, draft, openWithPrompt, sessionId, sessionKey, resetSession],
   );
 
   return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>;
