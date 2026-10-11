@@ -56,13 +56,13 @@ export const Navbar = () => {
       data-scrolled={scrolled}
     >
       <nav className={`nav-shell ${scrolled ? "nav-shell--glass" : ""}`}>
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-2.5 sm:px-5 sm:py-3">
+        <div className="mx-auto flex max-w-6xl xl:max-w-[1280px] items-center justify-between px-4 py-2.5 sm:px-5 sm:py-3">
           <Link to="/" className="group flex items-center gap-3" data-testid="nav-logo">
             <LogoMark className="h-8 w-8 transition-transform duration-500 group-hover:rotate-[-8deg] group-hover:scale-110" />
             <span className="text-sm font-bold tracking-wide">{BRAND}</span>
           </Link>
 
-          <div className="hidden items-center gap-7 md:flex">
+          <div className="hidden items-center gap-6 lg:gap-8 md:flex">
             {NAV_LINKS.map((l) => (
               <NavAnchor
                 key={l.id}
