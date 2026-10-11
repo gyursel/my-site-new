@@ -30,12 +30,13 @@ export const formatApiError = (err, fallback = "Нещо се обърка. Оп
   return detail?.msg || String(detail);
 };
 
-export async function streamChat({ sessionId, message, provider, fileIds, onDelta, onDone, onError, signal }) {
+export async function streamChat({ sessionId, sessionKey, message, provider, fileIds, onDelta, onDone, onError, signal }) {
   const res = await fetch(`${API}/chat`, {
     method: "POST",
     credentials: "include",
     headers: {
       "Content-Type": "application/json",
+      "X-Chat-Key": sessionKey,
       ...authHeaders(),
     },
     body: JSON.stringify({ session_id: sessionId, message, provider, file_ids: fileIds }),
