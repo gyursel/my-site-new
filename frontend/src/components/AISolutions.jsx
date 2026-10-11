@@ -6,6 +6,14 @@ import { useChat } from "../context/ChatContext";
 
 const ICONS = { MessageSquareText, Workflow, FileText, ScanEye, Smartphone };
 
+const IMAGE_TINTS = [
+  "from-[#00E5FF]/28 via-[#6F4BFF]/10 to-[#9A4DFF]/24",
+  "from-[#8B3DFF]/28 via-[#00E5FF]/8 to-[#4D7CFF]/22",
+  "from-[#00B8FF]/24 via-transparent to-[#B16CFF]/26",
+  "from-[#B16CFF]/24 via-[#2D7CFF]/8 to-[#00E5FF]/24",
+  "from-[#00E5FF]/22 via-[#8B3DFF]/8 to-[#D75CFF]/24",
+];
+
 export const AISolutions = () => {
   const { openWithPrompt } = useChat();
   return (
@@ -35,9 +43,10 @@ export const AISolutions = () => {
                     alt={s.title}
                     loading="lazy"
                     decoding="async"
-                    className="aspect-[16/9] w-full object-cover saturate-[1.28] contrast-[1.10] brightness-[1.10] transition-[transform,filter] duration-700 group-hover:scale-[1.045] group-hover:saturate-[1.38] group-hover:brightness-[1.13]"
+                    className="aspect-[16/9] w-full object-cover saturate-[1.36] contrast-[1.12] brightness-[1.08] transition-[transform,filter] duration-700 group-hover:scale-[1.045] group-hover:saturate-[1.5] group-hover:contrast-[1.16] group-hover:brightness-[1.12]"
                   />
-                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#120927]/85 via-transparent to-transparent" />
+                  <div className={`pointer-events-none absolute inset-0 bg-gradient-to-br ${IMAGE_TINTS[i % IMAGE_TINTS.length]} mix-blend-screen opacity-70 transition-opacity duration-500 group-hover:opacity-90`} />
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0B0617]/90 via-transparent to-[#00E5FF]/[0.04]" />
                   <div className="icon-tile absolute bottom-4 left-4 !mb-0 backdrop-blur-md">
                     <Icon className="h-5 w-5" aria-hidden="true" />
                   </div>
