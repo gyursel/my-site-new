@@ -5,6 +5,8 @@ ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
 
 import asyncio
+import hashlib
+import hmac
 import json
 import logging
 import os
@@ -30,7 +32,12 @@ mongo_url = os.environ['MONGO_URL']
 client = AsyncIOMotorClient(mongo_url)
 db = client[os.environ['DB_NAME']]
 
-app = FastAPI()
+EXPOSE_API_DOCS = os.environ.get("EXPOSE_API_DOCS", "0") == "1"
+app = FastAPI(
+    docs_url="/docs" if EXPOSE_API_DOCS else None,
+    redoc_url="/redoc" if EXPOSE_API_DOCS else None,
+    openapi_url="/openapi.json" if EXPOSE_API_DOCS else None,
+)
 api_router = APIRouter(prefix="/api")
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -38,6 +45,65 @@ logger = logging.getLogger(__name__)
 
 ALLOWED_UPLOAD_TYPES = {"image/jpeg", "image/png", "image/webp", "application/pdf", "text/plain", "text/csv"}
 MAX_UPLOAD_BYTES = 10 * 1024 * 1024
+CHAT_KEY_HEADER = "X-Chat-Key"
+
+
+def _client_fingerprint(request: Request) -> str:
+    forwarded = (request.headers.get("x-forwarded-for") or "").split(",")[0].strip()
+    host = forwarded or (request.client.host if request.client else "unknown")
+    return hashlib.sha256(host.encode("utf-8")).hexdigest()
+
+
+async def rate_limit(request: Request, scope: str, limit: int, window_seconds: int):
+    now = datetime.now(timezone.utc)
+    window_id = int(now.timestamp()) // window_seconds
+    key = f"{scope}:{_client_fingerprint(request)}:{window_id}"
+    rec = await db.rate_limits.find_one_and_update(
+        {"_id": key},
+        {
+            "$inc": {"count": 1},
+            "$setOnInsert": {
+                "expires_at": datetime.fromtimestamp((window_id + 2) * window_seconds, tz=timezone.utc),
+            },
+        },
+        upsert=True,
+        return_document=True,
+    )
+    if rec and rec.get("count", 0) > limit:
+        raise HTTPException(status_code=429, detail="Твърде много заявки. Опитайте отново след малко.")
+
+
+def _chat_key_hash(value: str) -> str:
+    return hashlib.sha256(value.encode("utf-8")).hexdigest()
+
+
+async def require_chat_session(request: Request, session_id: str, create: bool = False):
+    key = request.headers.get(CHAT_KEY_HEADER, "")
+    if len(key) < 24 or len(key) > 200:
+        raise HTTPException(status_code=401, detail="Невалидна чат сесия")
+
+    digest = _chat_key_hash(key)
+    rec = await db.chat_sessions.find_one({"session_id": session_id}, {"_id": 0})
+
+    if rec is None and create:
+        await db.chat_sessions.update_one(
+            {"session_id": session_id},
+            {
+                "$setOnInsert": {
+                    "session_id": session_id,
+                    "key_hash": digest,
+                    "created_at": datetime.now(timezone.utc).isoformat(),
+                }
+            },
+            upsert=True,
+        )
+        rec = await db.chat_sessions.find_one({"session_id": session_id}, {"_id": 0})
+
+    if rec is None:
+        raise HTTPException(status_code=404, detail="Чат сесията не е намерена")
+
+    if not hmac.compare_digest(rec.get("key_hash", ""), digest):
+        raise HTTPException(status_code=403, detail="Нямате достъп до тази чат сесия")
 
 
 # ---------- Models ----------
@@ -69,7 +135,7 @@ class UserOut(BaseModel):
 
 
 class ChatInput(BaseModel):
-    session_id: str = Field(min_length=12, max_length=100)
+    session_id: str = Field(min_length=12, max_length=100, pattern=r"^s-[0-9a-fA-F-]{36}$")
     message: str = Field(min_length=1, max_length=4000)
     provider: str = Field(default="anthropic", pattern="^anthropic$")
     file_ids: List[str] = Field(default_factory=list)
@@ -96,12 +162,20 @@ async def get_current_user(request: Request) -> dict:
     return user
 
 
+async def get_admin_user(request: Request) -> dict:
+    user = await get_current_user(request)
+    if user.get("role") != "admin":
+        raise HTTPException(status_code=403, detail="Нямате администраторски права")
+    return user
+
+
 def set_auth_cookie(response: Response, token: str):
     response.set_cookie("access_token", token, httponly=True, secure=True, samesite="lax", max_age=43200, path="/")
 
 
 @api_router.post("/auth/login")
 async def login(data: LoginInput, request: Request, response: Response):
+    await rate_limit(request, "admin-login", 25, 15 * 60)
     email = data.email.lower()
     identifier = f"{request.client.host if request.client else 'unknown'}:{email}"
     await check_lockout(db, identifier)
@@ -133,7 +207,8 @@ async def root():
 
 
 @api_router.post("/contact", response_model=ContactMessage, status_code=201)
-async def create_contact(input: ContactCreate):
+async def create_contact(input: ContactCreate, request: Request):
+    await rate_limit(request, "contact", 10, 60 * 60)
     obj = ContactMessage(**input.model_dump())
     doc = obj.model_dump()
     doc['created_at'] = doc['created_at'].isoformat()
@@ -142,7 +217,7 @@ async def create_contact(input: ContactCreate):
 
 
 @api_router.get("/contact", response_model=List[ContactMessage])
-async def list_contacts(user: dict = Depends(get_current_user)):
+async def list_contacts(user: dict = Depends(get_admin_user)):
     docs = await db.contact_messages.find({}, {"_id": 0}).sort("created_at", -1).to_list(500)
     for d in docs:
         if isinstance(d.get('created_at'), str):
@@ -151,7 +226,7 @@ async def list_contacts(user: dict = Depends(get_current_user)):
 
 
 @api_router.delete("/contact/{contact_id}", status_code=204)
-async def delete_contact(contact_id: str, user: dict = Depends(get_current_user)):
+async def delete_contact(contact_id: str, user: dict = Depends(get_admin_user)):
     res = await db.contact_messages.delete_one({"id": contact_id})
     if res.deleted_count == 0:
         raise HTTPException(status_code=404, detail="Запитването не е намерено")
@@ -160,7 +235,11 @@ async def delete_contact(contact_id: str, user: dict = Depends(get_current_user)
 
 # ---------- Files ----------
 @api_router.post("/files/upload", response_model=FileOut, status_code=201)
-async def upload_file(file: UploadFile = File(...), session_id: Optional[str] = None):
+async def upload_file(request: Request, file: UploadFile = File(...), session_id: Optional[str] = None):
+    await rate_limit(request, "file-upload", 20, 60 * 60)
+    if not session_id:
+        raise HTTPException(status_code=400, detail="Липсва чат сесия")
+    await require_chat_session(request, session_id, create=True)
     ctype = file.content_type or "application/octet-stream"
     if ctype not in ALLOWED_UPLOAD_TYPES:
         raise HTTPException(status_code=415, detail="Поддържат се само PDF, TXT, CSV, JPG, PNG и WEBP файлове")
@@ -192,13 +271,13 @@ async def upload_file(file: UploadFile = File(...), session_id: Optional[str] = 
 
 
 @api_router.get("/files", response_model=List[FileOut])
-async def list_files(user: dict = Depends(get_current_user)):
+async def list_files(user: dict = Depends(get_admin_user)):
     docs = await db.files.find({"is_deleted": False}, {"_id": 0}).sort("created_at", -1).to_list(500)
     return docs
 
 
 @api_router.get("/files/{file_id}/download")
-async def download_file(file_id: str, user: dict = Depends(get_current_user)):
+async def download_file(file_id: str, user: dict = Depends(get_admin_user)):
     rec = await db.files.find_one({"id": file_id, "is_deleted": False}, {"_id": 0})
     if not rec:
         raise HTTPException(status_code=404, detail="Файлът не е намерен")
@@ -208,7 +287,7 @@ async def download_file(file_id: str, user: dict = Depends(get_current_user)):
 
 
 @api_router.delete("/files/{file_id}", status_code=204)
-async def delete_file(file_id: str, user: dict = Depends(get_current_user)):
+async def delete_file(file_id: str, user: dict = Depends(get_admin_user)):
     res = await db.files.update_one({"id": file_id}, {"$set": {"is_deleted": True}})
     if res.matched_count == 0:
         raise HTTPException(status_code=404, detail="Файлът не е намерен")
@@ -224,7 +303,7 @@ async def get_news(limit: int = 40):
 
 # ---------- AI chat ----------
 @api_router.get("/chat/sessions")
-async def chat_sessions(user: dict = Depends(get_current_user)):
+async def chat_sessions(user: dict = Depends(get_admin_user)):
     pipeline = [
         {"$sort": {"created_at": 1}},
         {"$group": {
@@ -250,7 +329,7 @@ async def chat_sessions(user: dict = Depends(get_current_user)):
 
 
 @api_router.get("/chat/sessions/{session_id}")
-async def chat_session_detail(session_id: str, user: dict = Depends(get_current_user)):
+async def chat_session_detail(session_id: str, user: dict = Depends(get_admin_user)):
     docs = await db.chat_messages.find({"session_id": session_id}, {"_id": 0}).sort("created_at", 1).to_list(500)
     if not docs:
         raise HTTPException(status_code=404, detail="Разговорът не е намерен")
@@ -258,7 +337,7 @@ async def chat_session_detail(session_id: str, user: dict = Depends(get_current_
 
 
 @api_router.delete("/chat/sessions/{session_id}", status_code=204)
-async def chat_session_delete(session_id: str, user: dict = Depends(get_current_user)):
+async def chat_session_delete(session_id: str, user: dict = Depends(get_admin_user)):
     await db.chat_messages.delete_many({"session_id": session_id})
     for p in ai.MODELS:
         ai.drop_chat(session_id, p)
@@ -271,26 +350,35 @@ async def chat_models():
 
 
 @api_router.get("/chat/{session_id}/messages")
-async def chat_history(session_id: str):
+async def chat_history(session_id: str, request: Request):
+    await require_chat_session(request, session_id, create=False)
     docs = await db.chat_messages.find({"session_id": session_id}, {"_id": 0}).sort("created_at", 1).to_list(200)
     return docs
 
 
 @api_router.delete("/chat/{session_id}", status_code=204)
-async def chat_clear(session_id: str):
+async def chat_clear(session_id: str, request: Request):
+    await require_chat_session(request, session_id, create=False)
     await db.chat_messages.delete_many({"session_id": session_id})
+    await db.files.update_many({"session_id": session_id}, {"$set": {"is_deleted": True}})
+    await db.chat_sessions.delete_one({"session_id": session_id})
     for p in ai.MODELS:
         ai.drop_chat(session_id, p)
     return Response(status_code=204)
 
 
 @api_router.post("/chat")
-async def chat(input: ChatInput):
+async def chat(input: ChatInput, request: Request):
+    await rate_limit(request, "chat", 60, 10 * 60)
+    await require_chat_session(request, input.session_id, create=True)
     history = await db.chat_messages.find({"session_id": input.session_id}, {"_id": 0}).sort("created_at", 1).to_list(200)
 
     files = []
     for fid in input.file_ids[:5]:
-        rec = await db.files.find_one({"id": fid, "is_deleted": False}, {"_id": 0})
+        rec = await db.files.find_one(
+            {"id": fid, "session_id": input.session_id, "is_deleted": False},
+            {"_id": 0},
+        )
         if not rec:
             continue
         data, _ = await asyncio.to_thread(storage.get_object, rec["storage_path"])
@@ -334,6 +422,20 @@ async def chat(input: ChatInput):
 
 app.include_router(api_router)
 
+
+@app.middleware("http")
+async def add_security_headers(request: Request, call_next):
+    response = await call_next(request)
+    response.headers.setdefault("X-Content-Type-Options", "nosniff")
+    response.headers.setdefault("X-Frame-Options", "DENY")
+    response.headers.setdefault("Referrer-Policy", "strict-origin-when-cross-origin")
+    response.headers.setdefault("Permissions-Policy", "camera=(), microphone=(), geolocation=(), payment=()")
+    response.headers.setdefault("Content-Security-Policy", "default-src 'none'; frame-ancestors 'none'")
+    if request.url.scheme == "https":
+        response.headers.setdefault("Strict-Transport-Security", "max-age=31536000; includeSubDomains")
+    return response
+
+
 CORS_ORIGINS = [
     origin.strip()
     for origin in os.environ.get(
@@ -347,8 +449,8 @@ app.add_middleware(
     CORSMiddleware,
     allow_credentials=True,
     allow_origins=CORS_ORIGINS,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "DELETE", "OPTIONS"],
+    allow_headers=["Authorization", "Content-Type", "X-Chat-Key"],
 )
 
 
@@ -356,6 +458,8 @@ app.add_middleware(
 async def startup():
     await db.users.create_index("email", unique=True)
     await db.login_attempts.create_index("identifier")
+    await db.rate_limits.create_index("expires_at", expireAfterSeconds=0)
+    await db.chat_sessions.create_index("session_id", unique=True)
     await db.chat_messages.create_index([("session_id", 1), ("created_at", 1)])
     await seed_admin(db)
     try:
