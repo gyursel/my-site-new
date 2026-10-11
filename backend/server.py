@@ -105,6 +105,8 @@ async def require_chat_session(request: Request, session_id: str, create: bool =
     if not hmac.compare_digest(rec.get("key_hash", ""), digest):
         raise HTTPException(status_code=403, detail="Нямате достъп до тази чат сесия")
 
+    return digest
+
 
 # ---------- Models ----------
 class ContactMessage(BaseModel):
@@ -239,7 +241,7 @@ async def upload_file(request: Request, file: UploadFile = File(...), session_id
     await rate_limit(request, "file-upload", 20, 60 * 60)
     if not session_id:
         raise HTTPException(status_code=400, detail="Липсва чат сесия")
-    await require_chat_session(request, session_id, create=True)
+    session_key_hash = await require_chat_session(request, session_id, create=True)
     ctype = file.content_type or "application/octet-stream"
     if ctype not in ALLOWED_UPLOAD_TYPES:
         raise HTTPException(status_code=415, detail="Поддържат се само PDF, TXT, CSV, JPG, PNG и WEBP файлове")
@@ -263,6 +265,7 @@ async def upload_file(request: Request, file: UploadFile = File(...), session_id
         "content_type": ctype,
         "size": result.get("size", len(data)),
         "session_id": session_id,
+        "session_key_hash": session_key_hash,
         "is_deleted": False,
         "created_at": datetime.now(timezone.utc).isoformat(),
     }
@@ -351,16 +354,22 @@ async def chat_models():
 
 @api_router.get("/chat/{session_id}/messages")
 async def chat_history(session_id: str, request: Request):
-    await require_chat_session(request, session_id, create=False)
-    docs = await db.chat_messages.find({"session_id": session_id}, {"_id": 0}).sort("created_at", 1).to_list(200)
+    session_key_hash = await require_chat_session(request, session_id, create=False)
+    docs = await db.chat_messages.find(
+        {"session_id": session_id, "session_key_hash": session_key_hash},
+        {"_id": 0},
+    ).sort("created_at", 1).to_list(200)
     return docs
 
 
 @api_router.delete("/chat/{session_id}", status_code=204)
 async def chat_clear(session_id: str, request: Request):
-    await require_chat_session(request, session_id, create=False)
-    await db.chat_messages.delete_many({"session_id": session_id})
-    await db.files.update_many({"session_id": session_id}, {"$set": {"is_deleted": True}})
+    session_key_hash = await require_chat_session(request, session_id, create=False)
+    await db.chat_messages.delete_many({"session_id": session_id, "session_key_hash": session_key_hash})
+    await db.files.update_many(
+        {"session_id": session_id, "session_key_hash": session_key_hash},
+        {"$set": {"is_deleted": True}},
+    )
     await db.chat_sessions.delete_one({"session_id": session_id})
     for p in ai.MODELS:
         ai.drop_chat(session_id, p)
@@ -370,13 +379,21 @@ async def chat_clear(session_id: str, request: Request):
 @api_router.post("/chat")
 async def chat(input: ChatInput, request: Request):
     await rate_limit(request, "chat", 60, 10 * 60)
-    await require_chat_session(request, input.session_id, create=True)
-    history = await db.chat_messages.find({"session_id": input.session_id}, {"_id": 0}).sort("created_at", 1).to_list(200)
+    session_key_hash = await require_chat_session(request, input.session_id, create=True)
+    history = await db.chat_messages.find(
+        {"session_id": input.session_id, "session_key_hash": session_key_hash},
+        {"_id": 0},
+    ).sort("created_at", 1).to_list(200)
 
     files = []
     for fid in input.file_ids[:5]:
         rec = await db.files.find_one(
-            {"id": fid, "session_id": input.session_id, "is_deleted": False},
+            {
+                "id": fid,
+                "session_id": input.session_id,
+                "session_key_hash": session_key_hash,
+                "is_deleted": False,
+            },
             {"_id": 0},
         )
         if not rec:
@@ -388,8 +405,9 @@ async def chat(input: ChatInput, request: Request):
     attachments = [{"id": f, "name": n["filename"]} for f, n in zip(input.file_ids, files)]
     now = datetime.now(timezone.utc).isoformat()
     await db.chat_messages.insert_one({
-        "id": str(uuid.uuid4()), "session_id": input.session_id, "role": "user",
-        "content": input.message, "provider": input.provider, "attachments": attachments, "created_at": now,
+        "id": str(uuid.uuid4()), "session_id": input.session_id, "session_key_hash": session_key_hash,
+        "role": "user", "content": input.message, "provider": input.provider,
+        "attachments": attachments, "created_at": now,
     })
 
     chat_obj = ai.build_chat(input.session_id, input.provider, history)
@@ -408,8 +426,9 @@ async def chat(input: ChatInput, request: Request):
             return
         text = "".join(full)
         await db.chat_messages.insert_one({
-            "id": str(uuid.uuid4()), "session_id": input.session_id, "role": "assistant",
-            "content": text, "provider": input.provider, "model_label": label, "attachments": [],
+            "id": str(uuid.uuid4()), "session_id": input.session_id, "session_key_hash": session_key_hash,
+            "role": "assistant", "content": text, "provider": input.provider,
+            "model_label": label, "attachments": [],
             "created_at": datetime.now(timezone.utc).isoformat(),
         })
         yield f"data: {json.dumps({'done': True, 'model_label': label})}\n\n"
