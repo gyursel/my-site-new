@@ -56,6 +56,7 @@ export const ChatWidget = () => {
       const target = event.target;
       if (target.closest?.("textarea, input, select")) return;
       event.preventDefault();
+      event.stopPropagation();
       const factor = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? scroller.clientHeight : 1;
       scroller.scrollTop += event.deltaY * factor;
     };
@@ -162,6 +163,7 @@ export const ChatWidget = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 24, scale: 0.96 }}
             transition={{ duration: 0.25 }}
+            data-lenis-prevent
             className="glass-panel fixed inset-x-3 bottom-20 z-50 flex h-[min(72svh,620px)] flex-col overflow-hidden sm:inset-x-auto sm:bottom-24 sm:right-5 sm:w-[min(400px,calc(100vw-2.5rem))]"
             data-testid="chat-panel"
             role="dialog"
