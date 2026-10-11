@@ -17,6 +17,7 @@ export const useSmoothScroll = () => {
       smoothWheel: true,
       wheelMultiplier: 0.9,
       anchors: { offset: -88 },
+      prevent: (node) => Boolean(node.closest?.('[data-lenis-prevent]')),
     });
 
     window.__lenis = lenis;
