@@ -3,9 +3,9 @@ import { CountUp, Reveal, SplitWords } from "./Reveal";
 import { SectionDecor } from "./SectionDecor";
 
 export const About = () => (
-  <section id="about" className="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-28" data-testid="about-section">
+  <section id="about" className="relative mx-auto max-w-6xl xl:max-w-[1280px] px-4 py-16 sm:px-6 md:py-28" data-testid="about-section">
     <SectionDecor index="04" />
-    <div className="grid grid-cols-1 items-center gap-9 md:gap-12 lg:grid-cols-12">
+    <div className="grid grid-cols-1 items-center gap-9 md:gap-12 lg:grid-cols-12 lg:gap-16 xl:gap-20">
       <Reveal variant="left" className="lg:col-span-5">
         <div className="relative mx-auto max-w-sm">
           <div
