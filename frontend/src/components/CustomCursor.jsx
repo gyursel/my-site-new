@@ -16,27 +16,33 @@ export const CustomCursor = () => {
   useEffect(() => {
     const mq = window.matchMedia("(hover: hover) and (pointer: fine)");
     if (!mq.matches) return undefined;
+
     setEnabled(true);
     document.documentElement.classList.add("has-cursor");
 
     const onMove = (e) => {
       x.set(e.clientX);
       y.set(e.clientY);
-      setVisible(true);
-      setHover(Boolean(e.target.closest?.(INTERACTIVE)));
     };
+    const onEnter = () => setVisible(true);
     const onLeave = () => setVisible(false);
+    const onOver = (e) => setHover(Boolean(e.target.closest?.(INTERACTIVE)));
     const onDown = () => setDown(true);
     const onUp = () => setDown(false);
 
     window.addEventListener("pointermove", onMove, { passive: true });
+    document.addEventListener("pointerenter", onEnter);
     document.addEventListener("pointerleave", onLeave);
-    window.addEventListener("pointerdown", onDown);
-    window.addEventListener("pointerup", onUp);
+    document.addEventListener("pointerover", onOver, { passive: true });
+    window.addEventListener("pointerdown", onDown, { passive: true });
+    window.addEventListener("pointerup", onUp, { passive: true });
+
     return () => {
       document.documentElement.classList.remove("has-cursor");
       window.removeEventListener("pointermove", onMove);
+      document.removeEventListener("pointerenter", onEnter);
       document.removeEventListener("pointerleave", onLeave);
+      document.removeEventListener("pointerover", onOver);
       window.removeEventListener("pointerdown", onDown);
       window.removeEventListener("pointerup", onUp);
     };
@@ -56,14 +62,14 @@ export const CustomCursor = () => {
         className="pointer-events-none fixed left-0 top-0 z-[100] rounded-full border border-[#C9A0FF]/70 mix-blend-screen"
         style={{ x: rx, y: ry, translateX: "-50%", translateY: "-50%" }}
         animate={{
-          width: hover ? 56 : 36,
-          height: hover ? 56 : 36,
+          width: hover ? 54 : 34,
+          height: hover ? 54 : 34,
           opacity: visible ? 1 : 0,
-          scale: down ? 0.8 : 1,
-          backgroundColor: hover ? "rgba(139,61,255,0.18)" : "rgba(139,61,255,0)",
-          boxShadow: hover ? "0 0 30px rgba(139,61,255,0.6)" : "0 0 14px rgba(139,61,255,0.35)",
+          scale: down ? 0.82 : 1,
+          backgroundColor: hover ? "rgba(139,61,255,0.14)" : "rgba(139,61,255,0)",
+          boxShadow: hover ? "0 0 24px rgba(139,61,255,0.5)" : "0 0 10px rgba(139,61,255,0.28)",
         }}
-        transition={{ type: "spring", stiffness: 300, damping: 22 }}
+        transition={{ type: "spring", stiffness: 320, damping: 24 }}
         data-testid="cursor-ring"
         aria-hidden="true"
       />
