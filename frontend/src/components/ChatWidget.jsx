@@ -17,7 +17,7 @@ const SUGGESTIONS = [
 ];
 
 export const ChatWidget = () => {
-  const { open, setOpen, draft, setDraft, sessionId, sessionKey, resetSession } = useChat();
+  const { open, setOpen, openChat, draft, setDraft, sessionId, sessionKey, resetSession } = useChat();
   const [provider, setProvider] = useState("anthropic");
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
@@ -28,9 +28,10 @@ export const ChatWidget = () => {
   const fileRef = useRef(null);
 
   useEffect(() => {
-    api.get(`/chat/${sessionId}/messages`, { headers: { "X-Chat-Key": sessionKey } })
-      .then((r) => setMessages(r.data))
-      .catch(() => setMessages([]));
+    // New sessions start empty; never load old visitor messages.
+    setMessages([]);
+    setFiles([]);
+    setInput("");
   }, [sessionId, sessionKey]);
 
   useEffect(() => {
@@ -147,7 +148,7 @@ export const ChatWidget = () => {
     <>
       <button
         type="button"
-        onClick={() => setOpen(!open)}
+        onClick={() => { if (open) setOpen(false); else openChat(); }}
         className="chat-fab fixed bottom-4 right-4 z-50 flex h-13 w-13 sm:bottom-5 sm:right-5 sm:h-14 sm:w-14 items-center justify-center rounded-full text-white shadow-[0_0_30px_rgba(139,61,255,0.6)] transition-[transform,box-shadow] duration-300 hover:scale-110 hover:shadow-[0_0_45px_rgba(177,108,255,0.9)] active:scale-95"
         style={{ background: "linear-gradient(135deg, #B16CFF, #7A2BFF)" }}
         aria-label={open ? "Затвори AI чата" : "Отвори AI чата"}
