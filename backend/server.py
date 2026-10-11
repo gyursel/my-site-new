@@ -461,14 +461,19 @@ async def add_security_headers(request: Request, call_next):
     return response
 
 
-CORS_ORIGINS = [
-    origin.strip()
-    for origin in os.environ.get(
-        "CORS_ORIGINS",
-        "https://my-site-new-neon.vercel.app,http://localhost:3000"
-    ).split(",")
-    if origin.strip()
-]
+# Production domain remains allowed even if Render CORS_ORIGINS still has older values.
+# Exact origin only; never use a wildcard with credentialed requests.
+CORS_ORIGINS = sorted({
+    "https://gyursel.vercel.app",
+    *(
+        origin.strip()
+        for origin in os.environ.get(
+            "CORS_ORIGINS",
+            "https://my-site-new-neon.vercel.app,http://localhost:3000"
+        ).split(",")
+        if origin.strip()
+    ),
+})
 
 app.add_middleware(
     CORSMiddleware,
