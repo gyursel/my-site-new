@@ -149,8 +149,8 @@ export const ChatWidget = () => {
       <button
         type="button"
         onClick={() => { if (open) setOpen(false); else openChat(); }}
-        className="chat-fab fixed bottom-4 right-4 z-50 flex h-13 w-13 sm:bottom-5 sm:right-5 sm:h-14 sm:w-14 items-center justify-center rounded-full text-white shadow-[0_0_30px_rgba(139,61,255,0.6)] transition-[transform,box-shadow] duration-300 hover:scale-110 hover:shadow-[0_0_45px_rgba(177,108,255,0.9)] active:scale-95"
-        style={{ background: "linear-gradient(135deg, #B16CFF, #7A2BFF)" }}
+        className="chat-fab fixed bottom-4 right-4 z-50 flex h-13 w-13 sm:bottom-5 sm:right-5 sm:h-14 sm:w-14 items-center justify-center rounded-full text-white shadow-[0_0_30px_rgba(6,121,171,0.6)] transition-[transform,box-shadow] duration-300 hover:scale-110 hover:shadow-[0_0_45px_rgba(0,243,255,0.9)] active:scale-95"
+        style={{ background: "linear-gradient(135deg, #00f3ff, #075d99)" }}
         aria-label={open ? "Затвори AI чата" : "Отвори AI чата"}
         data-testid="chat-toggle-button"
       >
@@ -173,7 +173,7 @@ export const ChatWidget = () => {
             <div className="flex items-center justify-between border-b border-white/10 px-3 py-2.5 sm:px-4 sm:py-3">
               <div>
                 <p className="text-sm font-bold">AI асистент</p>
-                <p className="font-mono text-[10px] uppercase tracking-widest text-[#B16CFF]/80">Гюрсел Исмаилов</p>
+                <p className="font-mono text-[10px] uppercase tracking-widest text-[#00f3ff]/80">Гюрсел Исмаилов</p>
               </div>
               <div className="flex items-center gap-1 rounded-full border border-white/10 bg-black/30 p-1" data-testid="chat-provider-switch">
                 {PROVIDERS.map((p) => (
@@ -239,7 +239,7 @@ export const ChatWidget = () => {
                 type="button"
                 onClick={() => fileRef.current?.click()}
                 disabled={uploading || busy}
-                className="icon-btn text-white/60 hover:text-[#C9A0FF] disabled:opacity-40"
+                className="icon-btn text-white/60 hover:text-[#8af6ff] disabled:opacity-40"
                 aria-label="Прикачи файл"
                 data-testid="chat-attach-button"
               >
@@ -259,7 +259,7 @@ export const ChatWidget = () => {
               <button
                 type="submit"
                 disabled={busy || !input.trim()}
-                className="rounded-full bg-[#8B3DFF] p-2.5 text-white shadow-[0_0_14px_rgba(139,61,255,0.5)] transition-[background-color,transform,box-shadow] duration-300 hover:scale-110 hover:bg-[#9A4DFF] hover:shadow-[0_0_24px_rgba(177,108,255,0.8)] active:scale-95 disabled:opacity-40 disabled:hover:scale-100"
+                className="rounded-full bg-[#087ca8] p-2.5 text-white shadow-[0_0_14px_rgba(6,121,171,0.5)] transition-[background-color,transform,box-shadow] duration-300 hover:scale-110 hover:bg-[#09c8ee] hover:shadow-[0_0_24px_rgba(0,243,255,0.8)] active:scale-95 disabled:opacity-40 disabled:hover:scale-100"
                 aria-label="Изпрати"
                 data-testid="chat-send-button"
               >
