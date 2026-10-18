@@ -15,7 +15,7 @@ export const CustomCursor = () => {
 
   useEffect(() => {
     const mq = window.matchMedia("(hover: hover) and (pointer: fine)");
-    if (!mq.matches) return undefined;
+    if (!mq.matches || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return undefined;
 
     setEnabled(true);
     document.documentElement.classList.add("has-cursor");
@@ -53,21 +53,21 @@ export const CustomCursor = () => {
   return (
     <>
       <motion.div
-        className="pointer-events-none fixed left-0 top-0 z-[100] h-2 w-2 rounded-full bg-[#C9A0FF] shadow-[0_0_12px_rgba(201,160,255,0.9)]"
+        className="pointer-events-none fixed left-0 top-0 z-[100] h-2 w-2 rounded-full bg-[#8af6ff] shadow-[0_0_12px_rgba(138,246,255,0.9)]"
         style={{ x, y, translateX: "-50%", translateY: "-50%", opacity: visible ? 1 : 0 }}
         data-testid="cursor-dot"
         aria-hidden="true"
       />
       <motion.div
-        className="pointer-events-none fixed left-0 top-0 z-[100] rounded-full border border-[#C9A0FF]/70 mix-blend-screen"
+        className="pointer-events-none fixed left-0 top-0 z-[100] rounded-full border border-[#8af6ff]/70 mix-blend-screen"
         style={{ x: rx, y: ry, translateX: "-50%", translateY: "-50%" }}
         animate={{
           width: hover ? 54 : 34,
           height: hover ? 54 : 34,
           opacity: visible ? 1 : 0,
           scale: down ? 0.82 : 1,
-          backgroundColor: hover ? "rgba(139,61,255,0.14)" : "rgba(139,61,255,0)",
-          boxShadow: hover ? "0 0 24px rgba(139,61,255,0.5)" : "0 0 10px rgba(139,61,255,0.28)",
+          backgroundColor: hover ? "rgba(6,121,171,0.14)" : "rgba(6,121,171,0)",
+          boxShadow: hover ? "0 0 24px rgba(6,121,171,0.5)" : "0 0 10px rgba(6,121,171,0.28)",
         }}
         transition={{ type: "spring", stiffness: 320, damping: 24 }}
         data-testid="cursor-ring"
