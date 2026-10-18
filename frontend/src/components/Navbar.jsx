@@ -78,7 +78,7 @@ export const Navbar = () => {
 
           <div className="hidden items-center gap-2 lg:flex">
             <button type="button" className="btn-ghost" onClick={() => openWithPrompt("")} data-testid="nav-ask-ai">
-              <Sparkles className="h-4 w-4 text-[#C9A0FF]" aria-hidden="true" />
+              <Sparkles className="h-4 w-4 text-[#8af6ff]" aria-hidden="true" />
               Питай AI
             </button>
             <Magnetic strength={0.25}>
@@ -121,7 +121,7 @@ export const Navbar = () => {
                   id={l.id}
                   data-testid={`nav-mobile-link-${l.id}`}
                   onClick={() => setOpen(false)}
-                  className="block rounded-xl px-4 py-2.5 text-[15px] font-semibold text-white/80 transition-[background-color,color,transform] duration-300 hover:translate-x-1 hover:bg-[#8B3DFF]/15 hover:text-[#C9A0FF]"
+                  className="block rounded-xl px-4 py-2.5 text-[15px] font-semibold text-white/80 transition-[background-color,color,transform] duration-300 hover:translate-x-1 hover:bg-[#087ca8]/15 hover:text-[#8af6ff]"
                 >
                   {l.label}
                 </NavAnchor>
@@ -133,7 +133,7 @@ export const Navbar = () => {
               onClick={() => { setOpen(false); openWithPrompt(""); }}
               data-testid="nav-mobile-ask-ai"
             >
-              <Sparkles className="h-4 w-4 text-[#C9A0FF]" aria-hidden="true" /> Питай AI
+              <Sparkles className="h-4 w-4 text-[#8af6ff]" aria-hidden="true" /> Питай AI
             </button>
           </motion.div>
         )}

@@ -5,9 +5,9 @@ import { Reveal, SplitWords } from "./Reveal";
 import { SectionDecor } from "./SectionDecor";
 
 const IMAGE_TINTS = [
-  "from-[#00E5FF]/24 via-[#4D7CFF]/8 to-[#8B3DFF]/22",
-  "from-[#8B3DFF]/24 via-transparent to-[#00E5FF]/22",
-  "from-[#00B8FF]/20 via-[#8B3DFF]/8 to-[#D75CFF]/22",
+  "from-[#00f3ff]/24 via-[#4D7CFF]/8 to-[#087ca8]/22",
+  "from-[#087ca8]/24 via-transparent to-[#00f3ff]/22",
+  "from-[#00B8FF]/20 via-[#087ca8]/8 to-[#D75CFF]/22",
 ];
 
 export const Projects = () => (
@@ -33,7 +33,7 @@ export const Projects = () => (
                     <div className="flex h-7 items-center gap-1.5 border-b border-white/10 bg-white/[0.04] px-3" aria-hidden="true">
                       <span className="h-1.5 w-1.5 rounded-full bg-white/20" />
                       <span className="h-1.5 w-1.5 rounded-full bg-white/20" />
-                      <span className="h-1.5 w-1.5 rounded-full bg-[#00E5FF]/50" />
+                      <span className="h-1.5 w-1.5 rounded-full bg-[#00f3ff]/50" />
                     </div>
                     <img
                       src={IMAGES.projects[p.cover]}
@@ -45,7 +45,7 @@ export const Projects = () => (
                       className="aspect-[16/9] w-full object-cover saturate-[1.36] contrast-[1.12] brightness-[1.07] transition-[transform,filter] duration-500 group-hover:scale-[1.035] group-hover:saturate-[1.5] group-hover:contrast-[1.16] group-hover:brightness-[1.11]"
                     />
                     <div className={`pointer-events-none absolute inset-x-3 bottom-3 top-10 bg-gradient-to-br ${IMAGE_TINTS[i % IMAGE_TINTS.length]} mix-blend-screen opacity-65 transition-opacity duration-500 group-hover:opacity-88`} />
-                    <div className="pointer-events-none absolute inset-x-3 bottom-3 top-10 bg-gradient-to-t from-[#090512]/55 via-transparent to-[#00E5FF]/[0.03]" />
+                    <div className="pointer-events-none absolute inset-x-3 bottom-3 top-10 bg-gradient-to-t from-[#06111e]/55 via-transparent to-[#00f3ff]/[0.03]" />
                   </div>
                   <span className="absolute right-6 top-6 inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-black/55 text-white backdrop-blur-sm transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" aria-hidden="true">
                     <ArrowUpRight className="h-4 w-4" />
@@ -59,14 +59,14 @@ export const Projects = () => (
 
                   <div className="mt-5 grid grid-cols-2 gap-3">
                     {headlineResult && (
-                      <div className="rounded-xl border border-[#B16CFF]/20 bg-[#8B3DFF]/10 p-3">
-                        <Trophy className="h-4 w-4 text-[#C9A0FF]" aria-hidden="true" />
+                      <div className="rounded-xl border border-[#00f3ff]/20 bg-[#087ca8]/10 p-3">
+                        <Trophy className="h-4 w-4 text-[#8af6ff]" aria-hidden="true" />
                         <p className="mt-2 text-lg font-extrabold text-white">{headlineResult.value}</p>
                         <p className="mt-1 text-[10px] leading-snug text-white/50">{headlineResult.label}</p>
                       </div>
                     )}
-                    <div className="rounded-xl border border-[#00E5FF]/15 bg-[#00E5FF]/[0.05] p-3">
-                      <Timer className="h-4 w-4 text-[#00E5FF]" aria-hidden="true" />
+                    <div className="rounded-xl border border-[#00f3ff]/15 bg-[#00f3ff]/[0.05] p-3">
+                      <Timer className="h-4 w-4 text-[#00f3ff]" aria-hidden="true" />
                       <p className="mt-2 text-sm font-bold text-white">{p.duration}</p>
                       <p className="mt-1 text-[10px] text-white/50">срок за реализация</p>
                     </div>
@@ -76,7 +76,7 @@ export const Projects = () => (
                     {p.stack.slice(0, 4).map((s) => <span key={s} className="chip">{s}</span>)}
                   </div>
 
-                  <p className="mt-auto inline-flex items-center gap-2 pt-6 text-sm font-semibold text-[#C9A0FF] transition-transform duration-300 group-hover:translate-x-1">
+                  <p className="mt-auto inline-flex items-center gap-2 pt-6 text-sm font-semibold text-[#8af6ff] transition-transform duration-300 group-hover:translate-x-1">
                     Виж казуса <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
                   </p>
                 </div>
