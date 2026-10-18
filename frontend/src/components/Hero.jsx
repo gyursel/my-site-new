@@ -42,7 +42,7 @@ const RotatingWord = () => {
       <AnimatePresence mode="wait">
         <motion.span
           key={HERO.rotating[i]}
-          className={`block max-w-full whitespace-nowrap bg-gradient-to-r from-[#C9A0FF] via-[#9A4DFF] to-[#00E5FF] bg-clip-text text-transparent ${HERO.rotating[i] === "автоматизации" ? "text-[0.88em] sm:text-[0.82em] lg:text-[0.72em] xl:text-[0.82em] 2xl:text-[0.9em]" : ""}`}
+          className={`block max-w-full whitespace-nowrap bg-gradient-to-r from-[#8af6ff] via-[#09c8ee] to-[#00f3ff] bg-clip-text text-transparent ${HERO.rotating[i] === "автоматизации" ? "text-[0.88em] sm:text-[0.82em] lg:text-[0.72em] xl:text-[0.82em] 2xl:text-[0.9em]" : ""}`}
           initial={{ y: "100%", opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: "-100%", opacity: 0 }}
@@ -57,12 +57,12 @@ const RotatingWord = () => {
 
 const FloatingCapability = ({ icon: Icon, title, meta }) => (
   <div className="flex min-w-0 items-center gap-2 rounded-xl border border-white/10 bg-[#120a28]/65 px-3 py-2.5 shadow-[0_10px_30px_rgba(0,0,0,0.22)] backdrop-blur-sm">
-    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-[#B16CFF]/35 bg-[#8B3DFF]/15 text-[#C9A0FF]">
+    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-[#00f3ff]/35 bg-[#087ca8]/15 text-[#8af6ff]">
       <Icon className="h-3.5 w-3.5" aria-hidden="true" />
     </span>
     <span className="min-w-0">
       <span className="block truncate text-[11px] font-bold text-white">{title}</span>
-      <span className="mt-0.5 block truncate font-mono text-[8px] uppercase tracking-[0.12em] text-[#00E5FF]/75">{meta}</span>
+      <span className="mt-0.5 block truncate font-mono text-[8px] uppercase tracking-[0.12em] text-[#00f3ff]/75">{meta}</span>
     </span>
   </div>
 );
@@ -81,16 +81,16 @@ export const Hero = () => {
       className="relative mx-auto grid min-h-[100svh] max-w-6xl xl:max-w-[1280px] grid-cols-1 items-center gap-10 px-4 pb-14 pt-28 sm:px-6 sm:pb-20 sm:pt-32 lg:min-h-screen lg:grid-cols-12 lg:gap-10 lg:pt-28 xl:gap-16"
       data-testid="hero-section"
     >
-      <div className="hero-orb left-[-10%] top-[20%] h-72 w-72 bg-[#8B3DFF]/25" aria-hidden="true" />
-      <div className="hero-orb right-[5%] top-[60%] h-56 w-56 bg-[#00E5FF]/15 [animation-delay:-6s]" aria-hidden="true" />
+      <div className="hero-orb left-[-10%] top-[20%] h-72 w-72 bg-[#087ca8]/25" aria-hidden="true" />
+      <div className="hero-orb right-[5%] top-[60%] h-56 w-56 bg-[#00f3ff]/15 [animation-delay:-6s]" aria-hidden="true" />
 
       <motion.div className="min-w-0 lg:col-span-6 lg:pr-2" style={{ y: textY, opacity }}>
         <motion.span
-          className="inline-flex items-center gap-2 rounded-full border border-[#B16CFF]/40 bg-[#8B3DFF]/15 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.22em] text-[#D9C2FF]"
+          className="inline-flex items-center gap-2 rounded-full border border-[#00f3ff]/40 bg-[#087ca8]/15 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.22em] text-[#c7fbff]"
           {...fade(0.05)}
           data-testid="hero-badge"
         >
-          <span className="h-1.5 w-1.5 rounded-full bg-[#C9A0FF] pulse-dot" aria-hidden="true" />
+          <span className="h-1.5 w-1.5 rounded-full bg-[#8af6ff] pulse-dot" aria-hidden="true" />
           {HERO.badge}
         </motion.span>
 
@@ -139,10 +139,10 @@ export const Hero = () => {
         <div className="relative mx-auto max-w-lg lg:ml-auto" data-testid="hero-portrait">
           <div
             className="absolute -inset-12 rounded-full opacity-80"
-            style={{ background: "radial-gradient(closest-side, rgba(139,61,255,0.42), rgba(0,229,255,0.08) 58%, transparent 100%)" }}
+            style={{ background: "radial-gradient(closest-side, rgba(6,121,171,0.42), rgba(0,229,255,0.08) 58%, transparent 100%)" }}
             aria-hidden="true"
           />
-          <div className="relative overflow-hidden rounded-[26px] border border-[#B16CFF]/45 bg-[#0b0718] p-1.5 shadow-[0_20px_70px_rgba(67,24,120,0.38)]">
+          <div className="relative overflow-hidden rounded-[26px] border border-[#00f3ff]/45 bg-[#0b0718] p-1.5 shadow-[0_20px_70px_rgba(67,24,120,0.38)]">
             <img
               src={IMAGES.portrait}
               alt="Гюрсел Исмаилов работи на лаптоп"
@@ -154,10 +154,10 @@ export const Hero = () => {
             <div className="absolute bottom-5 left-5 right-5 rounded-2xl border border-white/15 bg-[#0d081b]/80 p-4 backdrop-blur-md">
               <div className="flex items-center justify-between gap-4">
                 <div>
-                  <p className="font-mono text-[9px] uppercase tracking-[0.22em] text-[#00E5FF]">AI PRODUCT STUDIO</p>
+                  <p className="font-mono text-[9px] uppercase tracking-[0.22em] text-[#00f3ff]">AI PRODUCT STUDIO</p>
                   <p className="mt-1 text-sm font-bold text-white">От идея до работещ продукт</p>
                 </div>
-                <Sparkles className="h-5 w-5 shrink-0 text-[#C9A0FF]" aria-hidden="true" />
+                <Sparkles className="h-5 w-5 shrink-0 text-[#8af6ff]" aria-hidden="true" />
               </div>
             </div>
           </div>
