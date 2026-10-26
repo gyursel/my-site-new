@@ -16,6 +16,7 @@ export const LightStreams = ({ paused }) => {
     let h = 0;
     const dpr = 1;
     const isMobile = window.innerWidth < 768;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     const resize = () => {
       w = canvas.clientWidth;
@@ -35,7 +36,7 @@ export const LightStreams = ({ paused }) => {
       freq: 0.0016 + Math.random() * 0.0016,
       speed: 0.5 + Math.random() * 1.0,
       phase: Math.random() * Math.PI * 2,
-      hue: i % 3 === 0 ? "0,229,255" : "139,61,255",
+      hue: i % 3 === 0 ? "0,243,255" : "29,115,193",
       width: 1 + Math.random() * 1.2,
     }));
 
@@ -72,7 +73,7 @@ export const LightStreams = ({ paused }) => {
 
     let last = 0;
     const loop = (t) => {
-      if (!pausedRef.current && !scrolling && t - last > 41) {
+      if (!reduceMotion && !document.hidden && !pausedRef.current && !scrolling && t - last > 50) {
         last = t;
         draw(t);
       }
